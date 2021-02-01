@@ -1,0 +1,67 @@
+<div th:fragment="auth_edit_del">
+{{#
+    var user_id = '[(${session.loginUser.id})]';
+    var organize_id = '[[${session.loginOrganize['organize_id']?:''}]]';
+    var authOrgIds = '[[${session.loginOrganize['authOrgIds']?:''}]]';
+    var authParams = '[[${session.loginOrganize['authParams']}?:'']]';
+    var create_user = d.create_user;
+    var create_organize = d.create_organize;
+    var createParams = d.create_organize+':Y';
+}}
+<th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'edit')}">
+    <!--未分配权限情况-->
+    {{# if(authOrgIds == ''||authOrgIds==null){ }}
+        <!--创建者本身-->
+        {{# if(user_id == create_user){ }}
+        <a id="edit_{{d.id}}" class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编辑</a>
+        {{#    } }}
+    {{#    } }}
+    <!--已分配权限情况-->
+    {{# if(authOrgIds != ''&&authOrgIds!=null){ }}
+        {{# if((authParams.indexOf(createParams)>-1) || (user_id == create_user)){ }}
+        <a id="edit_{{d.id}}" class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编辑</a>
+        {{#    } }}
+    {{#    } }}
+</th:block>
+<th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'del')}">
+    <!--未分配权限情况-->
+    {{# if(authOrgIds == ''||authOrgIds==null){ }}
+    <!--创建者本身-->
+    {{# if(user_id == create_user){ }}
+    <a id="del_{{d.id}}" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    {{#    } }}
+    {{#    } }}
+    <!--已分配权限情况-->
+    {{# if(authOrgIds != ''&&authOrgIds!=null){ }}
+    {{# if((authParams.indexOf(createParams)>-1) || (user_id == create_user)){ }}
+    <a id="del_{{d.id}}" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    {{#    } }}
+    {{#    } }}
+</th:block>
+</div>
+<div th:fragment="auth_del">
+{{#
+    var user_id = '[(${session.loginUser.id})]';
+    var organize_id = '[[${session.loginOrganize['organize_id']?:''}]]';
+    var authOrgIds = '[[${session.loginOrganize['authOrgIds']?:''}]]';
+    var authParams = '[[${session.loginOrganize['authParams']}?:'']]';
+    var create_user = d.create_user;
+    var create_organize = d.create_organize;
+    var createParams = d.create_organize+':Y';
+}}
+<th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'del')}">
+    <!--未分配权限情况-->
+    {{# if(authOrgIds == ''||authOrgIds==null){ }}
+    <!--创建者本身-->
+    {{# if(user_id == create_user){ }}
+    <a id="del_{{d.id}}" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    {{#    } }}
+    {{#    } }}
+    <!--已分配权限情况-->
+    {{# if(authOrgIds != ''&&authOrgIds!=null){ }}
+    {{# if((authParams.indexOf(createParams)>-1) || (user_id == create_user)){ }}
+    <a id="del_{{d.id}}" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    {{#    } }}
+    {{#    } }}
+</th:block>
+</div>

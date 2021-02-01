@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="top">
+    <link rel="stylesheet" th:href="@{/static/plugins/xadmin/css/font.css}">
+    <link rel="stylesheet" th:href="@{/static/plugins/xadmin/css/xadmin.css}">
+    <link rel="stylesheet" th:href="@{/static/css/com.qingfeng.css}">
+    <link rel="stylesheet" th:href="@{/static/css/scroll/smallscroll.css}">
+    <script type="text/javascript" th:src="@{/static/js/jquery-1.9.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/plugins/xadmin/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/static/plugins/xadmin/js/xadmin.js}"></script>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" th:src="@{/static/plugins/xadmin/js/html5.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/plugins/xadmin/js/respond.min.js}"></script>
+    <![endif]-->
+    <script type="text/javascript" th:src="@{/static/js/qfCommon.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/qfPassValue.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/jutils.min.js}"></script>
+    <script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+</div>
+<div th:fragment="bottom">
+    <script>
+        function loseSession(msg,url){
+            layer.msg(msg,{
+                offset:['30%'],
+                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+            },function(){
+                outLogin(url);
+            });
+        }
+
+        function outLogin(url){
+            window.open (url,'_top')
+        }
+
+    </script>
+</div>

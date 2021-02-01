@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="/web/system/admin/include :: top"></th:block>
+</head>
+<body class="gray-bg">
+
+<form class="layui-form" action="" id="form">
+    <table class="layui-table" style="width:95%;margin:10px auto;">
+            <tr>
+            <td width="15%" align="right">
+                <label class="layui-form-label">标题：
+                        <span style="color: red">*</span>
+                </label>
+            </td>
+            <td colspan="3" th:text="${p.title}"></td>
+        </tr>
+        <tr>
+            <td width="15%" align="right">
+                <label class="layui-form-label">内容：
+                </label>
+            </td>
+            <td colspan="3">
+                <div style="margin-top:5px;">
+                    <table class="layui-table">
+                        <thead>
+                        <tr>
+                            <th>附件名称</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody_file_content">
+                        <th:block th:each="v,vs:${contentFileList}">
+                            <tr th:id="'tr_ls'+${v.id}">
+                                <td th:text="${v.name}"></td>
+                                <td>
+                                    <div class="layui-btn-group">
+                                        <button type="button" th:onclick="downloadFile([[${v.id}]],[[${v.file_path}]],[[${v.name}]]);" class="layui-btn layui-btn-xs">下载</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="15%" align="right">
+                <label class="layui-form-label">排序：
+                </label>
+            </td>
+            <td colspan="3" th:text="${p.order_by}"></td>
+        </tr>
+        <tr>
+            <td width="15%" align="right">
+                <label class="layui-form-label">备注：
+                </label>
+            </td>
+            <td colspan="3">
+                <div id="remark">
+                    <th:block th:if="${p.remark=='0'}">
+                        北京
+                    </th:block>
+                    <th:block th:if="${p.remark=='1'}">
+                        上海
+                    </th:block>
+                    <th:block th:if="${p.remark=='2'}">
+                        深圳
+                    </th:block>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="4">
+                <table class="layui-table" style="width:95%;margin:10px auto;">
+                    <thead>
+                            <th>名称<span style="color: red">*</span></th>
+                            <th>简介</th>
+                            <th>排序</th>
+                            <th>备注</th>
+                    </thead>
+                    <tbody id="child_table">
+                    <th:block th:if="${list.size()>0}">
+                        <th:block th:each="var,status:${list}">
+                            <tr th:id="'child_tr_ls'+${var.id}" style="height: 36px;">
+                                <td th:text="${var.name}"></td>
+                                <td>
+                                    <div id="content_${var.id}">
+                                                <th:block th:if="${var.content.indexOf('0')!=-1}">
+                                                北京
+                                                </th:block>
+                                                <th:block th:if="${var.content.indexOf('1')!=-1}">
+                                                上海
+                                                </th:block>
+                                                <th:block th:if="${var.content.indexOf('2')!=-1}">
+                                                深圳
+                                                </th:block>
+                                    </div>
+                                </td>
+                                <td th:text="${var.order_by}"></td>
+                                <td>
+                                    <div style="margin-top:5px;">
+                                        <table class="layui-table">
+                                            <thead>
+                                            <tr>
+                                                <th>附件名称</th>
+                                                <th>操作</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody th:id="'tbody_file_remark_'+${var.id}">
+                                            <th:block th:each="v,vs:${var.remarkFileList}">
+                                                <tr th:id="'tr_ls'+${v.id}">
+                                                    <td th:text="${v.name}"></td>
+                                                    <td>
+                                                        <div class="layui-btn-group">
+                                                            <button type="button" th:onclick="downloadFile([[${v.id}]],[[${v.file_path}]],[[${v.name}]]);" class="layui-btn layui-btn-xs">下载</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </th:block>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </th:block>
+                    </th:block>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding-top: 10px;" colspan="4">
+                <div class="layui-form-item">
+                    <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" id="cancel">关闭</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<script type="text/javascript" th:src="@{/static/plugins/xadmin/lib/layui/layui.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/static/js/qfverify.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/qfAjaxReq.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/uploadFile.js}"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    var form,layer,layedit,laydate,upload;
+    layui.use(['form', 'layedit', 'laydate','upload'], function(){
+        form = layui.form;
+        layer = layui.layer;
+        layedit = layui.layedit;
+        laydate = layui.laydate;
+        upload = layui.upload;
+
+        $('#cancel').on('click',function (){
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        })
+
+        //初始化
+
+
+    });
+</script>
+
+<th:block th:include="/web/system/admin/include :: bottom" />
+</body>
+</html>

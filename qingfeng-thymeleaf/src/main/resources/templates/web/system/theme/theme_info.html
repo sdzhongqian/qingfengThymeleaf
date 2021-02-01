@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="/web/system/admin/include :: top"></th:block>
+</head>
+<body class="gray-bg">
+
+<form class="layui-form" action="" id="form">
+    <table class="layui-table" style="width:95%;margin:10px auto;">
+        <tr>
+            <td width="16%" align="right"><label class="layui-form-label">主题名称：</label></td>
+            <td colspan="3" th:text="${p.title}"></td>
+        </tr>
+        <tr>
+            <td align="right"><label class="layui-form-label">主题类型：</label></td>
+            <td>
+                <th:block th:if="${p.type=='0'}">系统主题</th:block>
+                <th:block th:if="${p.type=='1'}">自定义主题</th:block>
+            </td>
+            <td align="right"><label class="layui-form-label">文件名称：</label></td>
+            <td th:text="${p.file_name}"></td>
+        </tr>
+        <tr>
+            <td align="right"><label class="layui-form-label">创建时间：</label></td>
+            <td th:text="${p.create_time}"></td>
+            <td align="right"><label class="layui-form-label">排序：</label></td>
+            <td th:text="${p.order_by}"></td>
+        </tr>
+        <tr>
+            <td align="right"><label class="layui-form-label">示例图片：</label></td>
+            <td colspan="3"><img th:src="${p.file_path}"></td>
+        </tr>
+        <tr>
+            <td align="right"><label class="layui-form-label">css内容：</label></td>
+            <td colspan="3" th:text="${p.content}"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding-top: 10px;" colspan="4">
+                <div class="layui-form-item">
+                    <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" id="cancel">关闭</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<script type="text/javascript" th:src="@{/static/plugins/xadmin/lib/layui/layui.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/static/js/qfverify.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/qfAjaxReq.js}"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    var form,layer;
+    layui.use(['form'], function(){
+        form = layui.form;
+        layer = layui.layer;
+
+        $('#cancel').on('click',function (){
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        })
+    });
+</script>
+
+<th:block th:include="/web/system/admin/include :: bottom" />
+</body>
+</html>

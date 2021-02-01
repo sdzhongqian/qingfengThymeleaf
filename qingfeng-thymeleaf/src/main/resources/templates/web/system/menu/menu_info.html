@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="/web/system/admin/include :: top"></th:block>
+</head>
+<body class="gray-bg">
+
+<form class="layui-form" action="" id="form">
+    <table class="layui-table" style="width:95%;margin:10px auto;">
+        <tr>
+            <td width="20%" align="right"><label class="layui-form-label">父级名称：<span style="color: red">*</span></label></td>
+            <td colspan="3">
+                <th:block th:if="${p[parent_name]?:''==''||p[parent_name]?:''==null}"> 菜单信息</th:block>
+                <th:block th:if="${p[parent_name]?:''!=''&&p[parent_name]?:''!=null}" th:text="${p.parent_name }"> </th:block>
+            </td>
+        </tr>
+        <tr>
+            <td align="right"><label class="layui-form-label">菜单名称：<span style="color: red">*</span></label></td>
+            <td colspan="3" th:text="${p.name}"></td>
+        </tr>
+        <tr>
+            <td align="right"><label class="layui-form-label">菜单编码：<span style="color: red">*</span></label></td>
+            <td colspan="3" th:text="${p.code}"></td>
+        </tr>
+        <th:block th:if="${p.type=='menu'}">
+            <tr>
+                <td align="right"><label class="layui-form-label">URL：</label></td>
+                <td colspan="3" th:text="${p.url}"></td>
+            </tr>
+            <tr>
+                <td width="20%" align="right"><label class="layui-form-label">icon：</label></td>
+                <td colspan="3"><i class="layui-icon"th:text="${p.icon}"></i></td>
+            </tr>
+        </th:block>
+        <tr>
+            <td align="right"><label class="layui-form-label">排序号：</label></td>
+            <td colspan="3" th:text="${p.order_by}"></td>
+        </tr>
+        <th:block th:if="${p.type=='menu'}">
+            <th:block th:if="${list.size()==0}">
+                <tr id="button_tr" style="display: none;">
+            </th:block>
+            <th:block th:if="${list.size()>0}">
+                <tr id="button_tr">
+            </th:block>
+                <td width="20%" align="right"><label class="layui-form-label">功能按钮</label></td>
+                <td colspan="3">
+                    <div style="width:564px; overflow:auto;">
+                        <table class="layui-table" style="width:564px;">
+                            <thead>
+                            <tr>
+                                <th>名称</th>
+                                <th>编号</th>
+                                <th>排序号</th>
+                            </tr>
+                            </thead>
+                            <tbody id="table">
+                            <th:block th:if="${list.size()>0}">
+                                <th:block th:each="var,status:${list}">
+                                    <tr th:id="'tr_ls'+${var.id}">
+                                        <td style="padding: 10px" th:text="${var.name}"></td>
+                                        <td th:text="${var.code}"></td>
+                                        <td th:text="${var.order_by}"></td>
+                                    </tr>
+                                </th:block>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </th:block>
+        <tr>
+            <td align="right"><label class="layui-form-label">备注：</label></td>
+            <td colspan="3" th:text="${p.remark}"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding-top: 10px;" colspan="4">
+                <div class="layui-form-item">
+                    <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" id="cancel">关闭</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<script type="text/javascript" th:src="@{/static/plugins/xadmin/lib/layui/layui.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/static/js/qfverify.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/qfAjaxReq.js}"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    var form,layer;
+    layui.use(['form'], function(){
+        form = layui.form;
+        layer = layui.layer;
+
+        $('#cancel').on('click',function (){
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        })
+    });
+</script>
+
+<th:block th:include="/web/system/admin/include :: bottom" />
+</body>
+</html>
