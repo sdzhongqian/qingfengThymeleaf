@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="/web/system/admin/include :: top"></th:block>
+</head>
+<body class="gray-bg">
+<div align="center">
+    <h3>默认图片</h3>
+    <img class="sample1" th:data-img2blob="@{/static/images/img2blob/1.png}" />
+    <img class="sample1" th:data-img2blob="@{/static/images/img2blob/2.png}" />
+    <hr>
+    <h3>添加水印之后的图片</h3>
+    <img class="sample2" th:data-img2blob="@{/static/images/img2blob/1.png}" />
+    <img class="sample2" th:data-img2blob="@{/static/images/img2blob/2.png}" />
+</div>
+
+<script type="text/javascript" th:src="@{/static/js/jquery-1.9.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/img2blob.js}"></script>
+<script type="text/javascript">
+    $(function() {
+        // default
+        $(".sample1").img2blob();
+        // with watermark
+        $(".sample2").img2blob({
+            watermark: '青锋剑在手,天下任我走',
+            fontStyle: 'Microsoft YaHei,Arial',
+            fontSize: '18', // px
+            fontColor: '#fff', // default 'black'
+            fontX: 180, // The x coordinate where to start painting the text
+            fontY: 280 // The y coordinate where to start painting the text
+        });
+    });
+</script>
+</body>
+</html>

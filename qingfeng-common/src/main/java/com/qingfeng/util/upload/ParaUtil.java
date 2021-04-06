@@ -8,8 +8,8 @@ public class ParaUtil {
 
 //	public static String cloudfile = "http://localhost:8080/pic/";
 	public static String cloudfile = "http://xinlingge:8181/pic/";
-			public static String localName = "/home/pic/property/";
-//	public static String localName = "E://home/pic/com.qingfeng/";
+//			public static String localName = "/home/pic/property/";
+	public static String localName = "E://home/pic/com.qingfeng/";
 public static String projectAddress = "http://localhost:8888";
 
 
