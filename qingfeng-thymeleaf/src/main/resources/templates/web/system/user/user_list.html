@@ -137,8 +137,12 @@
             ,cols: [
                 [
                 {type: 'checkbox', fixed: 'left', width:40}
-                ,{field:'login_name', fixed: 'left',title:'登录名', width:120}
-                ,{field:'name', title:'姓名', width:120}
+                ,{field:'', fixed: 'left',title:'登录名', width:120, templet: function(res){
+                    return filterXSS(res.login_name);
+                }}
+                ,{field:'', title:'姓名', width:120, templet: function(res){
+                    return filterXSS(res.name);
+                }}
                 ,{field:'sex', title:'性别', width:100, sort: true, templet: function(res){
                     if(res.sex=='1'){
                         return '男';

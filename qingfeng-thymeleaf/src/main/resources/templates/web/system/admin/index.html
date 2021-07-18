@@ -13,26 +13,23 @@
     <th:block th:if="${session.loginUser[theme_type]?:''==''}">
         <link rel="stylesheet" th:href="@{/static/plugins/xadmin/css/theme1.css}">
     </th:block>
-    <th:block th:if="${session.loginUser[theme_type]?:''=='0'}">
+    <th:block th:if="${session.loginUser.theme_type=='0'}">
         <link rel="stylesheet" th:href="@{'/static/plugins/xadmin/css/'+${session.loginUser.theme_file_name}+'.css'}">
     </th:block>
-    <th:block th:if="${session.loginUser[theme_type]?:''=='1'}">
+    <th:block th:if="${session.loginUser.theme_type=='1'}">
         <link rel="stylesheet" th:href="@{'/static/plugins/xadmin/css/theme/'+${session.loginUser.theme_file_name}+'.css'}">
     </th:block>
     <script th:src="@{/static/plugins/xadmin/js/jquery.min.js}"></script>
     <script th:src="@{/static/plugins/xadmin/lib/layui/layui.js}" charset="utf-8"></script>
     <script type="text/javascript" th:src="@{/static/plugins/xadmin/js/xadmin.js}"></script>
     <script type="text/javascript" th:src="@{/static/js/qfPassValue.js}"></script>
+    <script type="text/javascript" th:src="@{/static/plugins/xssjs/xss.js}"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script th:inline="javascript"> var ctx = [[;
-    @
-    {/
-    }
-    ]] </script>
+    <script th:inline="javascript"> var ctx = [[@{/}]] </script>
     <script>
         // 是否开启刷新记忆tab功能
         // var is_remember = false;

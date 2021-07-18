@@ -151,14 +151,3 @@ spring.redis.pool.max-idle=10
 spring.redis.pool.min-idle=0
 # 连接超时时间（毫秒）
 spring.redis.timeout=1000
-
-
-
-# csrf referer 验证。填写允许的域名，如www.mysite.com,localhost,127.0.0.1。
-# 多个域名用逗号分隔，填写顶级域名则次级域名均允许访问
-#（如mysite.com，则abc.mysite.com、www.mysite.com都可以访问）。为空则不开启。
-csrf.domains=localhost,127.0.0.1
-
-#xxs 需要排除过滤的链接
-xss.domains=
-
