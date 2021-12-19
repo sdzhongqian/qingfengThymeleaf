@@ -47,7 +47,7 @@ public class GenCodeController extends BaseController {
 	private MenuService menuService;
 	@Autowired
 	private FreeMarkerConfigurer freeMarkerConfigurer;
-	private static String table_schema = "qingfeng_thymeleaf";
+	private static String table_schema = "qingfeng_gen";
 
 	/**
 	 * @Description: index 跳转list页面
@@ -417,15 +417,18 @@ public class GenCodeController extends BaseController {
 			linkTablePd.put("table_id",pd.get("id"));
 			linkTablePd.put("link_table",pd.get("link_table"));
 			linkTablePd.put("link_field",pd.get("link_field"));
+			System.out.println("=========================::"+pd.get("link_table_id"));
 			if(Verify.verifyIsNotNull(pd.get("link_table_id"))){
 				linkTablePd.put("id",pd.get("link_table_id"));
 				linkTablePd.put("update_time",time);
 				linkTablePd.put("update_user",user.get("id"));
+				System.out.println("0000");
 				genCodeService.updateTableLink(linkTablePd);
 			}else{
 				linkTablePd.put("id",GuidUtil.getUuid());
 				linkTablePd.put("create_time",time);
 				linkTablePd.put("create_user",user.get("id"));
+				System.out.println("111111");
 				linkTablePd.put("create_organize",organize.get("organize_id"));
 				genCodeService.saveTableLink(linkTablePd);
 			}

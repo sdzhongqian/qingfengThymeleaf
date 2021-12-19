@@ -5,9 +5,11 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
- * 获取IP方法
- * 
- * @author ruoyi
+ * @ProjectName IpUtils
+ * @author Administrator
+ * @version 1.0.0
+ * @Description 获取IP方法
+ * @createTime 2021/12/19 0019 21:35
  */
 public class IpUtils
 {

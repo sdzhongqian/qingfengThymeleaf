@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>国际化</title>
+    <script type="text/javascript" th:src="@{/static/js/jquery-1.9.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/plugins/xadmin/lib/layui/layui.js}" charset="utf-8"></script>
+    <script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+</head>
+<body>
+<div align="center" style="margin: 20px auto">
+    <h1 th:text="#{login.loginName}"></h1>
+    <h1 th:text="#{login.loginPwd}"></h1>
+    <h1 style="color: red" th:text="#{qingfeng.title}"></h1>
+    <div style="font-size: 24px">
+        <a style="cursor: pointer" onclick="changeLang('zh')"> 中文 </a>
+        <a style="cursor: pointer" onclick="changeLang('en')"> english </a>
+    </div>
+</div>
+</body>
+
+<script>
+    function changeLang(lang) {
+        $.ajax({
+            type: "GET",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: ctx+"example/language/setLang?lang="+lang ,//url
+            success: function (res) {
+                if (res.success) {
+                    location.reload();
+                }else{
+                    if(res.loseSession=='loseSession'){
+                        loseSession(res.msg,res.url)
+                    }else{
+                        layer.msg(res.msg, {time: 2000});
+                    }
+                }
+            }
+        });
+    }
+</script>
+
+</html>

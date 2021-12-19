@@ -12,9 +12,11 @@ import java.net.URLConnection;
 import java.security.cert.X509Certificate;
 
 /**
- * 通用http发送方法
- * 
- * @author ruoyi
+ * @ProjectName HttpUtils
+ * @author Administrator
+ * @version 1.0.0
+ * @Description 通用http发送方法
+ * @createTime 2021/12/19 0019 21:35
  */
 public class HttpUtils
 {

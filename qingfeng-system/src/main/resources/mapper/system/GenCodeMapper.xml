@@ -7,14 +7,13 @@
 	<!--查询数据表原信息分页列表-->
 	<select id="findTableListPage" parameterType="com.qingfeng.util.Page" resultType="com.qingfeng.util.PageData">
 		select
-			a.table_name,
-			a.table_comment,
-			a.create_time,
-			a.update_time
+			a.table_name as "table_name",
+			a.table_comment as "table_comment",
+			a.create_time as "create_time",
+			a.update_time as "update_time"
 			from information_schema.tables a
 			where a.table_schema=#{pd.table_schema}
-			and a.table_type='base table' and
-			a.table_name not like 'qrtz_%' and a.table_name not like 'system_%' and a.table_name not like 'act_%'
+			and a.table_name not like 'qrtz_%' and a.table_name not like 'system_%' and a.table_name not like 'act_%'
 			and a.table_name not in (
 				select table_name from system_gentable
 			)
@@ -39,8 +38,7 @@
 		count(*)
 		from information_schema.tables a
 		where a.table_schema=#{pd.table_schema}
-		and a.table_type='base table' and
-		a.table_name not like 'qrtz_%' and a.table_name not like 'system_%' and a.table_name not like 'act_%'
+		and a.table_name not like 'qrtz_%' and a.table_name not like 'system_%' and a.table_name not like 'act_%'
 		and a.table_name not in (
 			select table_name from system_gentable
 		)
@@ -61,38 +59,38 @@
 	<!--查询数据表原信息分页列表-->
 	<select id="findTableList" parameterType="com.qingfeng.util.PageData" resultType="com.qingfeng.util.PageData">
 		select
-		a.table_name,
-		a.table_comment,
-		a.create_time,
-		a.update_time
-		from information_schema.tables a
-		where a.table_schema=#{table_schema}
-		and a.table_type='base table' and
-		a.table_name not like 'qrtz_%' and a.table_name not like 'system_%' and a.table_name not like 'act_%'
-		and a.table_name in
-		<foreach collection="table_names" item="table_name" open="(" separator="," close=")">
-			#{table_name}
-		</foreach>
+			a.table_name as "table_name",
+			a.table_comment as "table_comment",
+			a.create_time as "create_time",
+			a.update_time as "update_time"
+			from information_schema.tables a
+			where a.table_schema=#{table_schema}
+			and a.table_name not like 'qrtz_%' and a.table_name not like 'system_%' and a.table_name not like 'act_%'
+			and a.table_name in
+			<foreach collection="table_names" item="table_name" open="(" separator="," close=")">
+				#{table_name}
+			</foreach>
 	</select>
 
 	<update id="updateComment" parameterType="com.qingfeng.util.PageData">
-		  alter table ${table_name} comment #{table_comment,jdbcType=VARCHAR}
+		alter table ${table_name} comment #{table_comment,jdbcType=VARCHAR}
 	</update>
 
-    <!--查询字段表原信息列表-->
-    <select id="findColumndList" parameterType="com.qingfeng.util.PageData" resultType="com.qingfeng.util.PageData">
+	<!--查询字段表原信息列表-->
+	<select id="findColumndList" parameterType="com.qingfeng.util.PageData" resultType="com.qingfeng.util.PageData">
 		select
-			a.column_name,
-			a.column_comment,
-			a.ordinal_position,
-			a.column_default,
-			a.is_nullable,
-			a.data_type,
-			a.column_type
+			a.column_name as "column_name",
+			a.column_comment as "column_comment",
+			a.ordinal_position as "ordinal_position",
+			a.column_default as "column_default",
+			a.is_nullable as "is_nullable",
+			a.data_type as "data_type",
+			a.column_type as "column_type"
 			from information_schema.columns a
 			where a.table_schema=#{table_schema}
-			and a.table_name=#{table_name}
-    </select>
+		    and a.table_name=#{table_name}
+	</select>
+
 
 	<!--保存-导入保存数据表-->
 	<insert id="saveTable" parameterType="com.qingfeng.util.PageData">

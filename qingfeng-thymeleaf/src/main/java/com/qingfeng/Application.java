@@ -19,7 +19,7 @@ import java.util.Properties;
  */
 //配置SpringBoot应用标识
 @SpringBootApplication
-@EnableAutoConfiguration
+//@EnableAutoConfiguration
 //拦截器、过滤器等
 @ServletComponentScan
 //定时器

@@ -239,7 +239,7 @@
             <tr>
                 <td width="15%" align="right"><label class="layui-form-label">选择关联子表：<span style="color: red">*</span></label></td>
                 <td>
-                    <input type="hidden" name="link_table_id" value="${linkTablePd.id}" class="layui-input">
+                    <input type="hidden" name="link_table_id" th:value="${linkTablePd?.id}" class="layui-input">
                     <select name="link_table" id="link_table" lay-verify="" lay-filter='selectLinkTable' style="width: 200px;" lay-search="">
                         <option value="">请选择</option>
                         <th:block th:each="var,status:${tableList}">
@@ -582,9 +582,9 @@
                             tt += '<td>'+ n.field_type;
                             tt += '</td>';
                             if(n.field_operat=='Y'){
-                                tt += '<td><input type="hidden" name="link_field_operat" id="link_field_operat_${var.id}" value="${var.field_operat}" class="layui-input"><input type="checkbox" checked id="show_link_field_operat_'+ n.id+'" lay-filter="checkField" lay-skin="primary" title=""></td>';
+                                tt += '<td><input type="hidden" name="link_field_operat" th:id="link_field_operat_${var.id}" th:value="${var.field_operat}" class="layui-input"><input type="checkbox" checked id="show_link_field_operat_'+ n.id+'" lay-filter="checkField" lay-skin="primary" title=""></td>';
                             }else{
-                                tt += '<td><input type="hidden" name="link_field_operat" id="link_field_operat_${var.id}" value="${var.field_operat}" class="layui-input"><input type="checkbox" id="show_link_field_operat_'+ n.id+'" lay-filter="checkField" lay-skin="primary" title=""></td>';
+                                tt += '<td><input type="hidden" name="link_field_operat" th:id="link_field_operat_${var.id}" th:value="${var.field_operat}" class="layui-input"><input type="checkbox" id="show_link_field_operat_'+ n.id+'" lay-filter="checkField" lay-skin="primary" title=""></td>';
                             }
                             tt += '<td><select name="link_verify_rule" style="width:70px" class="layui-input layui-unselect">';
                             tt += '<option value="">请选择</option>';
@@ -774,7 +774,7 @@
                     });
                     $("#link_field").html(select_tt);
 //                    console.log(tt);
-                    $("#link_tbody tr:last").before(tt);
+                    $("#link_tbody").html(tt);
                     form.render();
                 }else{
                     $("#submit_button").attr('disabled',false);

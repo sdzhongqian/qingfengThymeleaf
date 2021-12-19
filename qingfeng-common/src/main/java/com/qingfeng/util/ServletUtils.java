@@ -5,9 +5,11 @@ import org.apache.commons.lang3.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 客户端工具类
- * 
- * @author ruoyi
+ * @ProjectName ServletUtils
+ * @author Administrator
+ * @version 1.0.0
+ * @Description 客户端工具类
+ * @createTime 2021/12/19 0019 21:35
  */
 public class ServletUtils
 {

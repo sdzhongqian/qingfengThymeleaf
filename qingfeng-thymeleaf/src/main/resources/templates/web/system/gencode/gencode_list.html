@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <th:block th:include="/web/system/admin/include :: top"></th:block>
 </head>
@@ -53,31 +53,31 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'gencode')}">
+        <shiro:hasPermission name="gencode:gencode">
             <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" lay-event="gencode"><i class="layui-icon"></i>生成代码</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'import')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="gencode:import">
             <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" lay-event="import"><i class="layui-icon">&#xe67d;</i>导入</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'edit')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="gencode:edit">
             <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit"><i class="layui-icon"></i>编辑</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'del')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="gencode:del">
             <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del"><i class="layui-icon"></i>删除</button>
-        </th:block>
+        </shiro:hasPermission>
     </div>
 </script>
 <script type="text/html" id="barDemo">
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'viewCode')}">
+    <shiro:hasPermission name="gencode:viewCode">
         <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="viewCode">预览</a>
-    </th:block>
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'gencode')}">
+    </shiro:hasPermission>
+    <shiro:hasPermission name="gencode:gencode">
         <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="gencode">生成</a>
-    </th:block>
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'info')}">
+    </shiro:hasPermission>
+    <shiro:hasPermission name="gencode:info">
         <a class="layui-btn layui-btn-xs" lay-event="info">详情</a>
-    </th:block>
-    <th:block th:include="/web/system/auth/auth_editdel :: auth_edit_del"></th:block>
+    </shiro:hasPermission>
+    <th:block th:include="/web/system/auth/auth_editdel :: auth_edit_del('gencode')"></th:block>
 </script>
 <script>
     var table,form,laydate;

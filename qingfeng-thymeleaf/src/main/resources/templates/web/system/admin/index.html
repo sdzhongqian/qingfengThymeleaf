@@ -19,15 +19,7 @@
     <th:block th:if="${session.loginUser.theme_type=='1'}">
         <link rel="stylesheet" th:href="@{'/static/plugins/xadmin/css/theme/'+${session.loginUser.theme_file_name}+'.css'}">
     </th:block>
-    <script th:src="@{/static/plugins/xadmin/js/jquery.min.js}"></script>
-    <script th:src="@{/static/plugins/xadmin/lib/layui/layui.js}" charset="utf-8"></script>
-    <script type="text/javascript" th:src="@{/static/plugins/xadmin/js/xadmin.js}"></script>
-    <script type="text/javascript" th:src="@{/static/js/qfPassValue.js}"></script>
-    <script type="text/javascript" th:src="@{/static/plugins/xssjs/xss.js}"></script>
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+
     <![endif]-->
     <script th:inline="javascript"> var ctx = [[@{/}]] </script>
     <script>
@@ -464,196 +456,204 @@
         </div>
     </c:if>
 </form>
-
+<script th:src="@{/static/plugins/xadmin/js/jquery.min.js}"></script>
+<script th:src="@{/static/plugins/xadmin/lib/layui/layui.js}" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/static/plugins/xadmin/js/xadmin.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/qfPassValue.js}"></script>
+<script type="text/javascript" th:src="@{/static/plugins/xssjs/xss.js}"></script>
+<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+<!--[if lt IE 9]>-->
+<script th:src="@{/static/plugins/xadmin/js/html5.min.js}"></script>
+<script th:src="@{/static/plugins/xadmin/js/respond.min.js}"></script>
 <script th:src="@{/static/plugins/xadmin/js/create.js?id=34}"></script>
 <link th:href="@{/static/plugins/xadmin/css/jquery.enjoyhint.css}" rel="stylesheet">
 <script th:src="@{/static/plugins/xadmin/js/enjoyhint.min.js}"></script>
 
 <script>
-    $(document).ready(function(){
-        var menu = layui.data('menu');
-        var menuParam = menu.menuParam;
-        if(menuParam!=''&&menuParam!=null){
-            menuParam = menuParam.split(",");
-            findMenu(menuParam[0],menuParam[1],menuParam[2],menuParam[3]);
-            //选中
-            $("#li_"+menuParam[0]).addClass("layui-this");
-        }else{
-            $("#mainMenu").children().children().first().click();
-        }
+$(document).ready(function(){
+    var menu = layui.data('menu');
+    var menuParam = menu.menuParam;
+    if(menuParam!=''&&menuParam!=null){
+        menuParam = menuParam.split(",");
+        findMenu(menuParam[0],menuParam[1],menuParam[2],menuParam[3]);
+        //选中
+        $("#li_"+menuParam[0]).addClass("layui-this");
+    }else{
+        $("#mainMenu").children().children().first().click();
+    }
+});
+
+
+function showMoreMenu(){
+    $("#moreMenu").show();
+}
+function closeMoreMenu(){
+    $("#moreMenu").hide();
+}
+
+//查询菜单
+function findMenu(id,child_num,url,name){
+    //切换主菜单清除tab页
+    $('.layui-tab-title li[lay-id]').find('.layui-tab-close').click();
+    layui.data('menu', {
+        key: 'menuParam'
+        ,value: id+","+child_num+","+url+","+name
     });
-
-
-    function showMoreMenu(){
-        $("#moreMenu").show();
-    }
-    function closeMoreMenu(){
-        $("#moreMenu").hide();
-    }
-
-    //查询菜单
-    function findMenu(id,child_num,url,name){
-        //切换主菜单清除tab页
-        $('.layui-tab-title li[lay-id]').find('.layui-tab-close').click();
-        layui.data('menu', {
-            key: 'menuParam'
-            ,value: id+","+child_num+","+url+","+name
-        });
-        if(child_num==0){//没有子菜单，直接打开
-            $("#left").hide();
-            $("#right").attr("style","left:0px");
-            if(url.indexOf("http")!=-1){
-                xadmin.add_tab(name,url,true);
+    if(child_num==0){//没有子菜单，直接打开
+        $("#left").hide();
+        $("#right").attr("style","left:0px");
+        if(url.indexOf("http")!=-1){
+            xadmin.add_tab(name,url,true);
 //                $('.x-iframe').attr('src', url);
-            }else{
-                xadmin.add_tab(name,ctx+url,true);
-            }
-        }else{//获取子菜单数据
-            $("#left").show();
-            $("#left").attr("style","width:220px");
-            $("#right").attr("style","left:220px");
-            //查询左侧菜单
-            $.ajax({
-                type: "GET",//方法类型
-                dataType: "json",//预期服务器返回的数据类型
-                url: ctx+"system/menu/findMenuList?id="+id ,//url
-                data: {},
-                success: function (res) {
-                    if (res.success) {
-                        var tt = '';
-                        $.each(res.data, function (i, n) { //遍历第一个 level_num=2
-                            if(n.level_num=='2'){//遍历等级=2的菜单
-                                if(n.child_num==0){
-                                    var n_url = n.url;
-                                    if(n_url.indexOf("http")==-1){
+        }else{
+            xadmin.add_tab(name,ctx+url,true);
+        }
+    }else{//获取子菜单数据
+        $("#left").show();
+        $("#left").attr("style","width:220px");
+        $("#right").attr("style","left:220px");
+        //查询左侧菜单
+        $.ajax({
+            type: "GET",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: ctx+"system/menu/findMenuList?id="+id ,//url
+            data: {},
+            success: function (res) {
+                if (res.success) {
+                    var tt = '';
+                    $.each(res.data, function (i, n) { //遍历第一个 level_num=2
+                        if(n.level_num=='2'){//遍历等级=2的菜单
+                            if(n.child_num==0){
+                                var n_url = n.url;
+                                if(n_url.indexOf("http")==-1){
 //                                        n_url = ctx+n.url;
-                                        if(n_url.indexOf("?")!=-1){
-                                            n_url = n_url+'&menuAuthId='+ n.id;
+                                    if(n_url.indexOf("?")!=-1){
+                                        n_url = n_url+'&menuAuthId='+ n.id;
+                                    }else{
+                                        n_url = n_url+'?menuAuthId='+ n.id;
+                                    }
+                                }
+                                tt += '<li>';
+                                tt += '<a onclick="xadmin.add_tab(\''+ n.name+'\',\''+ n_url+'\')">';
+                                tt += ' <i class="layui-icon">'+ n.icon+'</i>';
+                                tt += '<cite>'+ n.name+'</cite></a>';
+                                tt += '</li>';
+                            }else{
+                                tt += '<li><a href="javascript:;"> <i class="layui-icon" lay-tips="'+ n.name+'">'+ n.icon+'</i>';
+                                tt += '<cite>'+ n.name+'</cite>';
+                                tt += '<i class="iconfont nav_right">&#xe697;</i></a>';
+                                tt += '<ul class="sub-menu">';
+                                $.each(res.data, function (j, m) { //遍历第二个 level_num=3
+                                    if(m.level_num=='3' && m.parent_id==n.id){
+                                        if(m.child_num==0){
+                                            var m_url = m.url;
+                                            if(m_url.indexOf("http")==-1){
+//                                                    m_url = ctx+m.url;
+                                                if(m_url.indexOf("?")!=-1){
+                                                    m_url = m_url+'&menuAuthId='+ m.id;
+                                                }else{
+                                                    m_url = m_url+'?menuAuthId='+ m.id;
+                                                }
+                                            }
+                                            tt += '<li>';
+                                            tt += '<a onclick="xadmin.add_tab(\''+ m.name+'\',\''+ m_url+'\')">';
+                                            tt += ' <i class="layui-icon">'+ m.icon+'</i>';
+                                            tt += '<cite>'+ m.name+'</cite></a>';
+                                            tt += '</li>';
                                         }else{
-                                            n_url = n_url+'?menuAuthId='+ n.id;
+                                            tt += '<li><a href="javascript:;"> <i class="layui-icon" lay-tips="'+ m.name+'">'+ m.icon+'</i>';
+                                            tt += '<cite>'+ m.name+'</cite>';
+                                            tt += '<i class="iconfont nav_right">&#xe697;</i></a>';
+                                            tt += '<ul class="sub-menu">';
+
+                                            $.each(res.data, function (k, v) { //遍历第三个 level_num=4
+                                                if(v.level_num=='4' && v.parent_id== m.id){
+                                                    var v_url = v.url;
+                                                    if(v_url.indexOf("http")==-1){
+//                                                            v_url = ctx+v.url;
+                                                        if(v_url.indexOf("?")!=-1){
+                                                            v_url = v_url+'&menuAuthId='+ v.id;
+                                                        }else{
+                                                            v_url = v_url+'?menuAuthId='+ v.id;
+                                                        }
+                                                    }
+                                                    tt += '<li>';
+                                                    tt += '<a onclick="xadmin.add_tab(\''+ v.name+'\',\''+ v_url+'\')">';
+                                                    tt += ' <i class="layui-icon">'+ v.icon+'</i>';
+                                                    tt += '<cite>'+ v.name+'</cite></a>';
+                                                    tt += '</li>';
+                                                }
+                                            });
+
+                                            tt += '</ul>';
+                                            tt += '</li>';
+
                                         }
                                     }
-                                    tt += '<li>';
-                                    tt += '<a onclick="xadmin.add_tab(\''+ n.name+'\',\''+ n_url+'\')">';
-                                    tt += ' <i class="layui-icon">'+ n.icon+'</i>';
-                                    tt += '<cite>'+ n.name+'</cite></a>';
-                                    tt += '</li>';
-                                }else{
-                                    tt += '<li><a href="javascript:;"> <i class="layui-icon" lay-tips="'+ n.name+'">'+ n.icon+'</i>';
-                                    tt += '<cite>'+ n.name+'</cite>';
-                                    tt += '<i class="iconfont nav_right">&#xe697;</i></a>';
-                                    tt += '<ul class="sub-menu">';
-                                    $.each(res.data, function (j, m) { //遍历第二个 level_num=3
-                                        if(m.level_num=='3' && m.parent_id==n.id){
-                                            if(m.child_num==0){
-                                                var m_url = m.url;
-                                                if(m_url.indexOf("http")==-1){
-//                                                    m_url = ctx+m.url;
-                                                    if(m_url.indexOf("?")!=-1){
-                                                        m_url = m_url+'&menuAuthId='+ m.id;
-                                                    }else{
-                                                        m_url = m_url+'?menuAuthId='+ m.id;
-                                                    }
-                                                }
-                                                tt += '<li>';
-                                                tt += '<a onclick="xadmin.add_tab(\''+ m.name+'\',\''+ m_url+'\')">';
-                                                tt += ' <i class="layui-icon">'+ m.icon+'</i>';
-                                                tt += '<cite>'+ m.name+'</cite></a>';
-                                                tt += '</li>';
-                                            }else{
-                                                tt += '<li><a href="javascript:;"> <i class="layui-icon" lay-tips="'+ m.name+'">'+ m.icon+'</i>';
-                                                tt += '<cite>'+ m.name+'</cite>';
-                                                tt += '<i class="iconfont nav_right">&#xe697;</i></a>';
-                                                tt += '<ul class="sub-menu">';
+                                });
+                                tt += '</ul>';
+                                tt += '</li>';
 
-                                                $.each(res.data, function (k, v) { //遍历第三个 level_num=4
-                                                    if(v.level_num=='4' && v.parent_id== m.id){
-                                                        var v_url = v.url;
-                                                        if(v_url.indexOf("http")==-1){
-//                                                            v_url = ctx+v.url;
-                                                            if(v_url.indexOf("?")!=-1){
-                                                                v_url = v_url+'&menuAuthId='+ v.id;
-                                                            }else{
-                                                                v_url = v_url+'?menuAuthId='+ v.id;
-                                                            }
-                                                        }
-                                                        tt += '<li>';
-                                                        tt += '<a onclick="xadmin.add_tab(\''+ v.name+'\',\''+ v_url+'\')">';
-                                                        tt += ' <i class="layui-icon">'+ v.icon+'</i>';
-                                                        tt += '<cite>'+ v.name+'</cite></a>';
-                                                        tt += '</li>';
-                                                    }
-                                                });
-
-                                                tt += '</ul>';
-                                                tt += '</li>';
-
-                                            }
-                                        }
-                                    });
-                                    tt += '</ul>';
-                                    tt += '</li>';
-
-                                }
                             }
-                        });
-                        $("#nav").html(tt);
-//                        $("#last_li").before(tt);
-                    }else{
-                        if(res.loseSession=='loseSession'){
-                            loseSession(res.msg,res.url)
-                        }else{
-                            layer.msg(res.msg, {time: 2000});
                         }
+                    });
+                    $("#nav").html(tt);
+//                        $("#last_li").before(tt);
+                }else{
+                    if(res.loseSession=='loseSession'){
+                        loseSession(res.msg,res.url)
+                    }else{
+                        layer.msg(res.msg, {time: 2000});
                     }
                 }
-            });
+            }
+        });
 
+    }
+}
+
+//切换组织
+function switchOrganize(){
+    parent.layer.open({
+        id:'switchOrganize',
+        //skin: 'layui-layer-molv',
+        title: '组织切换',
+        maxmin: true,
+        type: 2,
+        content: ctx+'system/user/toSwitchOrganize',
+        area: ['600px', '280px'],
+        end: function () {
+            var val = getOpenCloseParam();
+            if(val=="reload"){
+                //切换主菜单清除tab页
+                $('.layui-tab-title li[lay-id]').find('.layui-tab-close').click();
+                window.location.reload();
+            }
         }
-    }
+    });
+}
 
-    //切换组织
-    function switchOrganize(){
-        parent.layer.open({
-            id:'switchOrganize',
-            //skin: 'layui-layer-molv',
-            title: '组织切换',
-            maxmin: true,
-            type: 2,
-            content: ctx+'system/user/toSwitchOrganize',
-            area: ['600px', '280px'],
-            end: function () {
-                var val = getOpenCloseParam();
-                if(val=="reload"){
-                    //切换主菜单清除tab页
-                    $('.layui-tab-title li[lay-id]').find('.layui-tab-close').click();
-                    window.location.reload();
-                }
+function switchTheme(){
+    parent.layer.open({
+        id:'switchOrganize',
+        //skin: 'layui-layer-molv',
+        title: '组织主题',
+        maxmin: true,
+        type: 2,
+        content: ctx+'system/user/toSwitchTheme',
+        area: ['800px', '500px'],
+        end: function () {
+            var val = getOpenCloseParam();
+            if(val=="reload"){
+                window.location.reload();
             }
-        });
-    }
+        }
+    });
+}
 
-    function switchTheme(){
-        parent.layer.open({
-            id:'switchOrganize',
-            //skin: 'layui-layer-molv',
-            title: '组织主题',
-            maxmin: true,
-            type: 2,
-            content: ctx+'system/user/toSwitchTheme',
-            area: ['800px', '500px'],
-            end: function () {
-                var val = getOpenCloseParam();
-                if(val=="reload"){
-                    window.location.reload();
-                }
-            }
-        });
-    }
-
-    function showCreate(){
-        $("#show_create").click();
-    }
+function showCreate(){
+    $("#show_create").click();
+}
 </script>
 </body>
 
