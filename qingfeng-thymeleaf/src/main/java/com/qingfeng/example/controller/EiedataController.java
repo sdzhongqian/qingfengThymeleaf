@@ -13,6 +13,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -49,9 +50,10 @@ public class EiedataController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("eiedataList")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-		public String index(ModelMap map, HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String index(ModelMap map, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		PageData pd = new PageData(request);
 		map.put("pd",pd);
 		return "web/example/eiedata/eiedata_list";
@@ -63,7 +65,8 @@ public class EiedataController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("eiedataList")
 	@RequestMapping(value = "/findListPage", method = RequestMethod.GET)
 	public void findListPage(Page page, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 		PageData pd = new PageData(request);
@@ -97,7 +100,8 @@ public class EiedataController extends BaseController {
      * @return: void 
      * @Author: anxingtao
      * @Date: 2020-9-22 22:51 
-     */ 
+     */
+	@RequiresPermissions("eiedataList")
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     public void findList(HttpServletRequest request, HttpServletResponse response) throws IOException  {
     	PageData pd = new PageData(request);
@@ -116,7 +120,8 @@ public class EiedataController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("eiedata:info")
 	@RequestMapping(value = "/findInfo", method = RequestMethod.GET)
 	public String findInfo(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -133,9 +138,10 @@ public class EiedataController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("eiedata:add")
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
-		public String toAdd(ModelMap map, HttpServletRequest request)  {
+	public String toAdd(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
 		map.put("pd",pd);
 		return "web/example/eiedata/eiedata_add";
@@ -147,7 +153,8 @@ public class EiedataController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("eiedata:add")
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public void save(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -180,6 +187,7 @@ public class EiedataController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-9-23 22:32
 	 */
+	@RequiresPermissions("eiedata:addMore")
 	@RequestMapping(value = "/toAddMore", method = RequestMethod.GET)
 	public String toAddMore(ModelMap map,HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -194,6 +202,7 @@ public class EiedataController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-9-23 22:32
 	 */
+	@RequiresPermissions("eiedata:addMore")
 	@RequestMapping(value = "/saveMore", method = RequestMethod.POST)
 	public void saveMore(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws Exception  {
 		PageData pd = new PageData(request);
@@ -235,7 +244,8 @@ public class EiedataController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("eiedata:edit")
 	@RequestMapping(value = "/toUpdate", method = RequestMethod.GET)
 	public String toUpdate(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -251,7 +261,8 @@ public class EiedataController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("eiedata:edit")
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public void update(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -276,7 +287,8 @@ public class EiedataController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("eiedata:del")
 	@RequestMapping(value = "/del", method = RequestMethod.GET)
 	public void del(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);
@@ -290,13 +302,14 @@ public class EiedataController extends BaseController {
 
 
 
-        /**
+	/**
 	 * @Description: updateStatus
 	 * @Param: [request, response] 
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:52
-	 */ 
+	 */
+    @RequiresPermissions("eiedata:setStatus")
 	@RequestMapping(value = "/updateStatus", method = RequestMethod.GET)
 	public void updateStatus(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);
@@ -326,6 +339,7 @@ public class EiedataController extends BaseController {
 	 * @author: Administrator
 	 * @date: 2021/4/5 0005 18:52
 	 */
+	@RequiresPermissions("eiedata:downloadExcel")
 	@RequestMapping(value = "/downloadExcel", method = RequestMethod.GET)
 	public void downloadExcel(HttpServletRequest request,HttpSession session,HttpServletResponse response) throws Exception {
 		PageData pd = new PageData(request);
@@ -339,6 +353,7 @@ public class EiedataController extends BaseController {
 	 * @author: Administrator
 	 * @date: 2021/4/5 0005 18:57
 	 */
+	@RequiresPermissions("eiedata:import")
 	@RequestMapping(value = "/toImport", method = RequestMethod.GET)
 	public String toImport(ModelMap map,HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -352,6 +367,7 @@ public class EiedataController extends BaseController {
 	 * @author: Administrator
 	 * @date: 2021/4/5 0005 18:57
 	 */
+	@RequiresPermissions("eiedata:import")
 	@RequestMapping(value = "/saveImportExcel", method = RequestMethod.POST)
 	public void saveImportExcel(HttpServletRequest request,HttpSession session,HttpServletResponse response) throws IOException {
 		PageData pd = new PageData(request);

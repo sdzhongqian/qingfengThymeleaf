@@ -5,6 +5,7 @@ import com.qingfeng.system.service.LoginService;
 import com.qingfeng.system.service.ThemeService;
 import com.qingfeng.system.service.UserService;
 import com.qingfeng.util.*;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -43,9 +44,10 @@ public class ThemeController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-28 17:45 
-	 */ 
+	 */
+	@RequiresPermissions("themeList")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-		public String index(ModelMap map, HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String index(ModelMap map, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		PageData pd = new PageData(request);
 		map.put("pd",pd);
 		return "web/system/theme/theme_list";
@@ -58,6 +60,7 @@ public class ThemeController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-9-28 17:46 
 	 */
+	@RequiresPermissions("themeList")
 	@RequestMapping(value = "/findListPage", method = RequestMethod.GET)
 	public void findListPage(Page page, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		PageData pd = new PageData(request);
@@ -92,7 +95,8 @@ public class ThemeController extends BaseController {
      * @return: void 
      * @Author: anxingtao
      * @Date: 2020-9-28 17:46 
-     */ 
+     */
+	@RequiresPermissions("themeList")
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     public void findList(HttpServletRequest request, HttpServletResponse response) throws IOException  {
     	PageData pd = new PageData(request);
@@ -111,7 +115,8 @@ public class ThemeController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-28 17:46 
-	 */ 
+	 */
+	@RequiresPermissions("theme:info")
 	@RequestMapping(value = "/findInfo", method = RequestMethod.GET)
 	public String findInfo(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -128,6 +133,7 @@ public class ThemeController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-9-28 17:46
 	 */
+	@RequiresPermissions("theme:add")
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 		public String toAdd(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -142,6 +148,7 @@ public class ThemeController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-9-28 17:46
 	 */
+	@RequiresPermissions("theme:add")
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public void save(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -171,7 +178,8 @@ public class ThemeController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-28 21:57 
-	 */ 
+	 */
+	@RequiresPermissions("theme:add")
 	@RequestMapping(value = "/saveTheme", method = RequestMethod.POST)
 	public void saveTheme(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -180,8 +188,6 @@ public class ThemeController extends BaseController {
 //		String relativelyPath=System.getProperty("user.dir");
 //		String contexPath= request.getSession().getServletContext().getRealPath("/");
 		String path = ResourceUtils.getFile("classpath:static/plugins/xadmin/css/theme/").getPath();
-		System.out.println("##############:"+request.getSession().getServletContext().getRealPath("/"));
-		System.out.println("##############:path"+path);
 		//img 图片 base64位需要存储为图片
 		String img = pd.get("img").toString().substring(pd.get("img").toString().indexOf("base64,") + 7);
 		String imgPath = path+File.separator+file_name+".png";
@@ -231,7 +237,8 @@ public class ThemeController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-29 9:16 
-	 */ 
+	 */
+	@RequiresPermissions("theme:edit")
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public void update(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -254,7 +261,8 @@ public class ThemeController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-28 17:47 
-	 */ 
+	 */
+	@RequiresPermissions("theme:del")
 	@RequestMapping(value = "/del", method = RequestMethod.GET)
 	public void del(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);
@@ -284,7 +292,8 @@ public class ThemeController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-28 17:47 
-	 */ 
+	 */
+	@RequiresPermissions("theme:status")
 	@RequestMapping(value = "/updateStatus", method = RequestMethod.GET)
 	public void updateStatus(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);

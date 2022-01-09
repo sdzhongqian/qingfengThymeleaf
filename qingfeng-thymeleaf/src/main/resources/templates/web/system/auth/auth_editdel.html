@@ -1,4 +1,5 @@
-<div th:fragment="auth_edit_del">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<div th:fragment="auth_edit_del(menuCode)">
 {{#
     var user_id = '[(${session.loginUser.id})]';
     var organize_id = '[[${session.loginOrganize['organize_id']?:''}]]';
@@ -7,8 +8,9 @@
     var create_user = d.create_user;
     var create_organize = d.create_organize;
     var createParams = d.create_organize+':Y';
+    var menuCode = '[[${menuCode}]]';
 }}
-<th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'edit')}">
+<span shiro:hasPermission="${menuCode+':edit'}">
     <!--未分配权限情况-->
     {{# if(authOrgIds == ''||authOrgIds==null){ }}
         <!--创建者本身-->
@@ -22,8 +24,8 @@
         <a id="edit_{{d.id}}" class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编辑</a>
         {{#    } }}
     {{#    } }}
-</th:block>
-<th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'del')}">
+</span>
+<span shiro:hasPermission="${menuCode+':del'}">
     <!--未分配权限情况-->
     {{# if(authOrgIds == ''||authOrgIds==null){ }}
     <!--创建者本身-->
@@ -37,9 +39,9 @@
     <a id="del_{{d.id}}" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     {{#    } }}
     {{#    } }}
-</th:block>
+</span>
 </div>
-<div th:fragment="auth_del">
+<div th:fragment="auth_del(menuCode)">
 {{#
     var user_id = '[(${session.loginUser.id})]';
     var organize_id = '[[${session.loginOrganize['organize_id']?:''}]]';
@@ -48,8 +50,9 @@
     var create_user = d.create_user;
     var create_organize = d.create_organize;
     var createParams = d.create_organize+':Y';
+    var menuCode = '[[${menuCode}]]';
 }}
-<th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'del')}">
+<span shiro:hasPermission="${menuCode+':del'}">
     <!--未分配权限情况-->
     {{# if(authOrgIds == ''||authOrgIds==null){ }}
     <!--创建者本身-->
@@ -63,5 +66,5 @@
     <a id="del_{{d.id}}" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     {{#    } }}
     {{#    } }}
-</th:block>
+</span>
 </div>

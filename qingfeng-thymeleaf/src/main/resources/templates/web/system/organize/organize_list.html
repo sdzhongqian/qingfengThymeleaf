@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="/web/system/admin/include :: top"></th:block>
+
 </head>
 <body class="gray-bg">
 <div class="x-nav">
-            <span class="layui-breadcrumb">
-                <a><cite>系统管理</cite></a>
-                <a><cite>组织管理</cite></a>
-            </span>
+    <span class="layui-breadcrumb">
+        <a><cite>系统管理</cite></a>
+        <a><cite>组织管理</cite></a>
+    </span>
     <button class="layui-btn layui-btn-xs" style="margin-left: 10px;" th:onclick="openAndCloseLeft83('system_organize');"><i title="展开左侧栏" class="iconfont"></i></button>
     <a class="layui-btn layui-btn-sm" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
         <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
@@ -38,10 +38,10 @@
                                     <input type="text" name="short_name" id="short_name" style="width: 180px;height: 32px;display: inline" placeholder="请输入组织简称" class="layui-input">
                                 </div>
                                 <div class="layui-inline">
-                                    <div style="float: left;padding-top: 5px;">
+                                    <div style="float: left;line-height: 52px;">
                                         <label class="layui-form-lab" style="width: auto">状态</label>
                                     </div>
-                                    <div style="float: left;padding-left: 5px">
+                                    <div style="float: left;padding: 10px 5px;">
                                         <select name="status" id="status" style="width: 120px;height: 32px;" class="layui-input">
                                             <option value=""></option>
                                             <option value="0">启用</option>
@@ -51,6 +51,7 @@
                                 </div>
                                 <div class="layui-inline">
                                     <button type="button" class="layui-btn layui-btn-sm"  lay-submit="" th:onclick="reloadData()"><i class="layui-icon">&#xe615;</i></button>
+                                    <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">重置</button>
                                 </div>
                             </form>
                         </div>
@@ -66,44 +67,46 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'add')}">
+        <shiro:hasPermission name="organize:add">
             <button type="button" class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon"></i>新增</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'addMore')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="organize:addMore">
             <button type="button" class="layui-btn layui-btn-sm" lay-event="addMore"><i class="layui-icon"></i>批量新增</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'edit')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="organize:edit">
             <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit"><i class="layui-icon"></i>编辑</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'del')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="organize:del">
             <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del"><i class="layui-icon"></i>删除</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'assignRoleAuth')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="organize:assignRoleAuth">
             <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="assignRoleAuth"><i class="layui-icon">&#xe716;</i>权限分配</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'exportExcel')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="organize:exportExcel">
             <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="exportExcel"><i class="layui-icon">&#xe67d</i>导出</button>
-        </th:block>
+        </shiro:hasPermission>
     </div>
 </script>
 <script type="text/html" id="barDemo">
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'info')}">
+    <shiro:hasPermission name="organize:info">
         <a class="layui-btn layui-btn-xs" lay-event="info">详情</a>
-    </th:block>
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'assignRoleAuth')}">
+    </shiro:hasPermission>
+    <shiro:hasPermission name="organize:assignRoleAuth">
         <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="assignRoleAuth">分配权限</a>
-    </th:block>
-    <th:block th:include="/web/system/auth/auth_editdel :: auth_edit_del"></th:block>
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'setStatus')}">
+    </shiro:hasPermission>
+    <th:block th:include="/web/system/auth/auth_editdel :: auth_edit_del('organize')"></th:block>
+    <shiro:hasPermission name="organize:setStatus">
         {{ d.status == '0' ? '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="setStatus1">禁用</a>' : '' }}
         {{ d.status == '1' ? '<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="setStatus0">启用</a>' : '' }}
-    </th:block>
+    </shiro:hasPermission>
 </script>
-<script type="text/javascript" th:src="@{/static/js/jquery-1.9.1.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/plugins/ztree/js/jquery.ztree.core.js}"></script>
-<script type="text/javascript" th:src="@{/static/plugins/ztree/js/jquery.ztree.all.js}"></script>
-<link rel="stylesheet" th:href="@{/static/plugins/ztree/css/zTreeStyle/zTreeStyle.css}" type="text/css" />
-<th:block th:include="web/system/organize/organize_ztree"></th:block>
+<th:block th:include="/web/system/admin/include :: top"></th:block>
+<!--<script type="text/javascript" th:src="@{/static/js/jquery-1.9.1.min.js}"></script>-->
+<!--<script type="text/javascript" th:src="@{/static/plugins/ztree/js/jquery.ztree.core.js}"></script>-->
+<!--<script type="text/javascript" th:src="@{/static/plugins/ztree/js/jquery.ztree.all.js}"></script>-->
+<!--<link rel="stylesheet" th:href="@{/static/plugins/ztree/css/zTreeStyle/zTreeStyle.css}" type="text/css" />-->
+<!--<th:block th:include="/web/system/organize/organize_ztree"></th:block>-->
+<th:block th:include="/web/system/organize/organize_laytree"></th:block>
 <script>
     var table,form;
     layui.use(['table','form'], function(){
@@ -285,14 +288,12 @@
     });
 
     function reload(){
-        console.log(111111111111);
         var parent_id =  $("#tree_id").val();
         reloadData(parent_id);
         findTreeData(parent_id);
     }
 
     function reloadData(parent_id){
-        console.log(1122);
         var name = $('#name').val();
         var short_name = $('#short_name').val();
         var status = $("#status option:selected").val();

@@ -27,7 +27,6 @@ public class GraphicService extends CrudService<GraphicDao,PageData> {
     @Autowired
     protected GraphicDao graphicdao;
 
-    @MyDataSource(DataSourceType.Slave)
     public List<PageData> findListPage(Page page) {
         PageHelper.startPage(page.getIndex(), page.getShowCount());
         return graphicdao.findListPage(page);
@@ -40,7 +39,6 @@ public class GraphicService extends CrudService<GraphicDao,PageData> {
      * @Author: anxingtao
      * @Date: 2020-9-22 21:03
      */
-    @MyDataSource(DataSourceType.Slave)
     public Integer findListSize(Page page){
         return graphicdao.findListSize(page);
     }
@@ -53,7 +51,6 @@ public class GraphicService extends CrudService<GraphicDao,PageData> {
      * @Author: anxingtao
      * @Date: 2020-9-22 21:03
      */
-    @MyDataSource(DataSourceType.Slave)
     public List<PageData> findList(PageData pd){
         List<PageData> list = graphicdao.findList(pd);
         return list;
@@ -66,7 +63,6 @@ public class GraphicService extends CrudService<GraphicDao,PageData> {
      * @Author: anxingtao
      * @Date: 2020-9-22 21:03
      */
-    @MyDataSource(DataSourceType.Slave)
     public PageData findInfo(PageData pd){
         return graphicdao.findInfo(pd);
     }
@@ -78,7 +74,6 @@ public class GraphicService extends CrudService<GraphicDao,PageData> {
      * @Author: anxingtao
      * @Date: 2020-9-22 21:03
      */
-    @MyDataSource(DataSourceType.Slave)
     public int save(PageData t){
         return graphicdao.save(t);
     }
@@ -91,7 +86,6 @@ public class GraphicService extends CrudService<GraphicDao,PageData> {
      * @Author: anxingtao
      * @Date: 2020-9-22 21:04
      */
-    @MyDataSource(DataSourceType.Slave)
     public int update(PageData t){
         return graphicdao.update(t);
     }
@@ -103,7 +97,6 @@ public class GraphicService extends CrudService<GraphicDao,PageData> {
      * @Author: anxingtao
      * @Date: 2020-9-24 18:12
      */
-    @MyDataSource(DataSourceType.Slave)
     public void delForParam(PageData pd){
         graphicdao.delForParam(pd);
     }
@@ -116,7 +109,6 @@ public class GraphicService extends CrudService<GraphicDao,PageData> {
      * @Date: 2020-9-22 21:04
      */
     @Transactional
-    @MyDataSource(DataSourceType.Slave)
     public void del(String[] ids){
         graphicdao.del(ids);
     }

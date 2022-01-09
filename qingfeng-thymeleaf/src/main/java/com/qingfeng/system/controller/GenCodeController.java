@@ -12,6 +12,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import net.sf.jxls.transformer.XLSTransformer;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -56,6 +57,7 @@ public class GenCodeController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:46
 	 */
+	@RequiresPermissions("gencodeList")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 		public String index(ModelMap map, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		PageData pd = new PageData(request);
@@ -70,6 +72,7 @@ public class GenCodeController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-10-9 15:21
 	 */
+	@RequiresPermissions("gencode:import")
 	@RequestMapping(value = "/toImportTable", method = RequestMethod.GET)
 	public String toImportTable(ModelMap map, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		PageData pd = new PageData(request);
@@ -84,6 +87,7 @@ public class GenCodeController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-10-9 15:22
 	 */
+	@RequiresPermissions("gencodeList")
 	@RequestMapping(value = "/findTableListPage", method = RequestMethod.GET)
 	public void findTableListPage(Page page, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		PageData pd = new PageData(request);
@@ -117,7 +121,8 @@ public class GenCodeController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-10-9 15:50 
-	 */ 
+	 */
+	@RequiresPermissions("gencode:edit")
 	@RequestMapping(value = "/updateComment", method = RequestMethod.POST)
 	public void updateTable(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -136,6 +141,7 @@ public class GenCodeController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:46
 	 */
+	@RequiresPermissions("gencode:import")
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public void save(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception  {
 		PageData pd = new PageData(request);
@@ -232,7 +238,8 @@ public class GenCodeController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:46 
-	 */ 
+	 */
+	@RequiresPermissions("gencodeList")
 	@RequestMapping(value = "/findListPage", method = RequestMethod.GET)
 	public void findListPage(Page page, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		PageData pd = new PageData(request);
@@ -267,7 +274,8 @@ public class GenCodeController extends BaseController {
      * @return: void 
      * @Author: anxingtao
      * @Date: 2020-9-22 22:46 
-     */ 
+     */
+	@RequiresPermissions("gencodeList")
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     public void findList(HttpServletRequest request, HttpServletResponse response) throws IOException  {
     	PageData pd = new PageData(request);
@@ -286,7 +294,8 @@ public class GenCodeController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:46 
-	 */ 
+	 */
+	@RequiresPermissions("gencode:info")
 	@RequestMapping(value = "/findInfo", method = RequestMethod.GET)
 	public String findInfo(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -319,7 +328,8 @@ public class GenCodeController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:47 
-	 */ 
+	 */
+	@RequiresPermissions("gencode:edit")
 	@RequestMapping(value = "/toUpdate", method = RequestMethod.GET)
 	public String toUpdate(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -371,11 +381,11 @@ public class GenCodeController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:47 
-	 */ 
+	 */
+	@RequiresPermissions("gencode:edit")
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public void update(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
-		System.out.println("###:"+pd.toString());
 		String time = DateTimeUtil.getDateTimeStr();
 		pd.put("update_time", time);
         PageData user = (PageData) session.getAttribute("loginUser");
@@ -417,7 +427,6 @@ public class GenCodeController extends BaseController {
 			linkTablePd.put("table_id",pd.get("id"));
 			linkTablePd.put("link_table",pd.get("link_table"));
 			linkTablePd.put("link_field",pd.get("link_field"));
-			System.out.println("=========================::"+pd.get("link_table_id"));
 			if(Verify.verifyIsNotNull(pd.get("link_table_id"))){
 				linkTablePd.put("id",pd.get("link_table_id"));
 				linkTablePd.put("update_time",time);
@@ -428,7 +437,6 @@ public class GenCodeController extends BaseController {
 				linkTablePd.put("id",GuidUtil.getUuid());
 				linkTablePd.put("create_time",time);
 				linkTablePd.put("create_user",user.get("id"));
-				System.out.println("111111");
 				linkTablePd.put("create_organize",organize.get("organize_id"));
 				genCodeService.saveTableLink(linkTablePd);
 			}
@@ -464,7 +472,7 @@ public class GenCodeController extends BaseController {
 		this.writeJson(response,json);
 	}
 
-
+	@RequiresPermissions("gencode:edit")
 	@RequestMapping(value = "/toUpdateField", method = RequestMethod.GET)
 	public String toUpdateField(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -482,6 +490,7 @@ public class GenCodeController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-10-12 15:30
 	 */
+	@RequiresPermissions("gencode:edit")
 	@RequestMapping(value = "/updateField", method = RequestMethod.POST)
 	public void updateField(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -506,7 +515,8 @@ public class GenCodeController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:47 
-	 */ 
+	 */
+	@RequiresPermissions("gencode:del")
 	@RequestMapping(value = "/del", method = RequestMethod.GET)
 	public void del(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);
@@ -575,7 +585,8 @@ public class GenCodeController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-10-12 22:21 
-	 */ 
+	 */
+	@RequiresPermissions("gencode:gencode")
 	@RequestMapping(value = "/gencode", method = RequestMethod.GET)
 	public void gencode(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws Exception  {
 		PageData pd = new PageData(request);
@@ -864,7 +875,8 @@ public class GenCodeController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-10-16 11:07 
-	 */ 
+	 */
+	@RequiresPermissions("gencode:viewCode")
 	@RequestMapping(value = "/toViewCode", method = RequestMethod.GET)
 	public String toViewCode(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);

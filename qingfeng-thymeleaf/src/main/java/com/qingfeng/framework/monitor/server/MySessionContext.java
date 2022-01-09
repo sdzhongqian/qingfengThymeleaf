@@ -33,7 +33,6 @@ public class MySessionContext {
     }
 
     public synchronized HttpSession getSession(String sessionId){
-        System.out.println("#############sessionId:"+sessionId);
         if(sessionId!=null){
             return sessionMap.get(sessionId);
         }else{

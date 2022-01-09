@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <th:block th:include="/web/system/admin/include :: top"></th:block>
 </head>
@@ -29,6 +29,7 @@
                             </div>
                             <div class="layui-inline">
                                 <button type="button" class="layui-btn layui-btn-sm"  lay-submit="" th:onclick="reloadData()"><i class="layui-icon">&#xe615;</i></button>
+                                <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">重置</button>
                             </div>
                         </form>
                     </div>
@@ -43,29 +44,29 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'add')}">
+        <shiro:hasPermission name="mycontent:add">
             <button type="button" class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon"></i>新增</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'addMore')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="mycontent:addMore">
             <button type="button" class="layui-btn layui-btn-sm" lay-event="addMore"><i class="layui-icon"></i>批量新增</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'edit')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="mycontent:edit">
             <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit"><i class="layui-icon"></i>编辑</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'del')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="mycontent:del">
             <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del"><i class="layui-icon"></i>删除</button>
-        </th:block>
+        </shiro:hasPermission>
     </div>
 </script>
 <script type="text/html" id="barDemo">
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'info')}">
+    <shiro:hasPermission name="mycontent:info">
         <a class="layui-btn layui-btn-xs" lay-event="info">详情</a>
-    </th:block>
-    <th:block th:include="/web/system/auth/auth_editdel :: auth_edit_del"></th:block>
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'setStatus')}">
+    </shiro:hasPermission>
+    <th:block th:include="/web/system/auth/auth_editdel :: auth_edit_del('mycontent')"></th:block>
+    <shiro:hasPermission name="mycontent:setStatus">
         {{ d.status == '1' ? '<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="setStatus">启用</a>' : '' }}
         {{ d.status == '0' ? '<a class="layui-btn layui-btn-xs">启用中</a>' : '' }}
-    </th:block>
+    </shiro:hasPermission>
 </script>
 <script type="text/javascript" th:src="@{/static/js/qfAjaxReq.js}"></script>
 <script>

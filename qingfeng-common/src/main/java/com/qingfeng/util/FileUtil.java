@@ -2,6 +2,7 @@ package com.qingfeng.util;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,7 +17,23 @@ import java.util.List;
 public class FileUtil {
 	
 	private static final int BUFFERED_SIZE = 4 * 1024;
-	
+
+
+	//路径遍历
+	public static boolean directory_traversal_check(String filename) {
+		return filename.contains("../") || filename.contains("..\\") || filename.contains("/..") || filename.contains("\\..");
+	}
+	//防止http头注入
+	public static boolean http_header_manipulation(String str) {
+		try {
+			// URL解码 将 %0A -> \n and %0D -> \r
+			str = URLDecoder.decode(str, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return str.contains("\r") || str.contains("\n");
+	}
+
 	/**
 	 * 下载文件
 	 */

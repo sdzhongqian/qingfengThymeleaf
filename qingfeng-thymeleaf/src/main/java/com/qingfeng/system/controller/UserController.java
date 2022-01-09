@@ -4,6 +4,7 @@ import com.qingfeng.base.controller.BaseController;
 import com.qingfeng.system.service.*;
 import com.qingfeng.util.*;
 import net.sf.jxls.transformer.XLSTransformer;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -52,9 +53,10 @@ public class UserController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("userList")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-		public String index(ModelMap map, HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String index(ModelMap map, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		PageData pd = new PageData(request);
 		map.put("pd",pd);
 		return "web/system/user/user_list";
@@ -66,7 +68,8 @@ public class UserController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("userList")
 	@RequestMapping(value = "/findListPage", method = RequestMethod.GET)
 	public void findListPage(Page page, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		PageData pd = new PageData(request);
@@ -101,7 +104,8 @@ public class UserController extends BaseController {
      * @return: void 
      * @Author: anxingtao
      * @Date: 2020-9-22 22:52 
-     */ 
+     */
+	@RequiresPermissions("userList")
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     public void findList(HttpServletRequest request, HttpServletResponse response) throws IOException  {
     	PageData pd = new PageData(request);
@@ -120,7 +124,8 @@ public class UserController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:52 
-	 */ 
+	 */
+	@RequiresPermissions("user:info")
 	@RequestMapping(value = "/findInfo", method = RequestMethod.GET)
 	public String findInfo(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -141,7 +146,8 @@ public class UserController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:52 
-	 */ 
+	 */
+	@RequiresPermissions("user:add")
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 		public String toAdd(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -155,7 +161,8 @@ public class UserController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:52 
-	 */ 
+	 */
+	@RequiresPermissions("user:add")
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public void save(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception  {
 		PageData pd = new PageData(request);
@@ -221,6 +228,7 @@ public class UserController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-9-25 23:52
 	 */
+	@RequiresPermissions("user:addMore")
 	@RequestMapping(value = "/toAddMore", method = RequestMethod.GET)
 	public String toAddMore(ModelMap map,HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -236,6 +244,7 @@ public class UserController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2019-7-9 10:06
 	 */
+	@RequiresPermissions("user:addMore")
 	@RequestMapping(value = "/saveMore", method = RequestMethod.POST)
 	public void saveMore(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws Exception  {
 		PageData pd = new PageData(request);
@@ -322,7 +331,8 @@ public class UserController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:52 
-	 */ 
+	 */
+	@RequiresPermissions("user:edit")
 	@RequestMapping(value = "/toUpdate", method = RequestMethod.GET)
 	public String toUpdate(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -342,7 +352,8 @@ public class UserController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:52 
-	 */ 
+	 */
+	@RequiresPermissions("user:edit")
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public void update(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -384,7 +395,6 @@ public class UserController extends BaseController {
 					orgPd.put("position",position[i]);
 					orgPd.put("order_by",child_order_by[i]);
 					if(Verify.verifyIsNotNull(child_id[i])){
-						orgPd.put("id",child_id[i]);
 						orgPd.put("update_time", time);
 						userService.updateUserOrganize(orgPd);
 					}else{
@@ -408,7 +418,8 @@ public class UserController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:52 
-	 */ 
+	 */
+	@RequiresPermissions("user:del")
 	@RequestMapping(value = "/del", method = RequestMethod.GET)
 	public void del(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);
@@ -434,7 +445,8 @@ public class UserController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:52 
-	 */ 
+	 */
+	@RequiresPermissions("user:setStatus")
 	@RequestMapping(value = "/updateStatus", method = RequestMethod.GET)
 	public void updateStatus(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);
@@ -456,6 +468,7 @@ public class UserController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-9-23 17:40
 	 */
+	@RequiresPermissions("user:resetPwd")
 	@RequestMapping(value = "/toResetPwd", method = RequestMethod.GET)
 	public String toResetPwd(ModelMap map,HttpServletRequest request,HttpSession session)  {
 		PageData pd = new PageData(request);
@@ -470,7 +483,8 @@ public class UserController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-23 17:48 
-	 */ 
+	 */
+	@RequiresPermissions("user:resetPwd")
 	@RequestMapping(value = "/updatePwd", method = RequestMethod.POST)
 	public void updatePwd(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -507,7 +521,8 @@ public class UserController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-23 21:57
-	 */ 
+	 */
+	@RequiresPermissions("user:exportExcel")
 	@RequestMapping(value = "/exportData", method = RequestMethod.GET)
 	public void exportData(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 		PageData pd = new PageData(request);
@@ -590,7 +605,8 @@ public class UserController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-26 16:34 
-	 */ 
+	 */
+	@RequiresPermissions("user:assignAuth")
 	@RequestMapping(value = "/toAssignRoleAuth", method = RequestMethod.GET)
 	public String toAssignRoleAuth(ModelMap map,HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -614,7 +630,8 @@ public class UserController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-26 16:40 
-	 */ 
+	 */
+	@RequiresPermissions("user:assignAuth")
 	@RequestMapping(value = "/updateAuth", method = RequestMethod.POST)
 	public void updateAuth(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -669,6 +686,7 @@ public class UserController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-9-26 17:40
 	 */
+	@RequiresPermissions("user:assignAuth")
 	@RequestMapping(value = "/findTreeTableList", method = RequestMethod.GET)
 	public void findTreeTableList(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -699,7 +717,8 @@ public class UserController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-26 17:45 
-	 */ 
+	 */
+	@RequiresPermissions("user:assignAuth")
 	@RequestMapping(value = "/findUserOrganizeInfo", method = RequestMethod.GET)
 	public void findUserOrganizeInfo(HttpServletRequest request, HttpServletResponse response) throws Exception  {
 		PageData pd = new PageData(request);

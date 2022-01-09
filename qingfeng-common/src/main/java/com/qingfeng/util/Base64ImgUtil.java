@@ -24,7 +24,6 @@ public class Base64ImgUtil {
         // 读取图片字节数组
         try {
             InputStream in = new FileInputStream(imgPath);
-            System.out.println("文件大小（字节）="+in.available());
             data = new byte[in.available()];
             in.read(data);
             in.close();

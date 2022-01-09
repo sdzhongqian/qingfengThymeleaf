@@ -34,7 +34,6 @@ public class DataSourceAspect {
 	 * @Author: anxingtao
 	 * @Date: 2019-4-4 15:30 
 	 */ 
-//	@Pointcut("execution(* com.qingfeng.*.service..*.*(..)))")
     @Pointcut("execution(public * com.qingfeng.*.service.*.*(..))")
 	public void aspect() { }
 	
@@ -66,9 +65,7 @@ public class DataSourceAspect {
 
     @After("aspect()")
     public void after(JoinPoint joinPoint){
-//        System.out.println(DataSourceType.Master.getName());
         JdbcContextHolder.putDataSource(DataSourceType.Master.getName());
-//        System.out.println("##################:after");
     }
 
 

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <th:block th:include="/web/system/admin/include :: top"></th:block>
 </head>
 <body class="gray-bg">
 
 <div class="x-nav">
-            <span class="layui-breadcrumb">
-                <a><cite>Quartz定时任务</cite></a>
-                <a><cite>业务任务管理</cite></a>
-            </span>
+    <span class="layui-breadcrumb">
+        <a><cite>Quartz定时任务</cite></a>
+        <a><cite>业务任务管理</cite></a>
+    </span>
     <a class="layui-btn layui-btn-sm" style="line-height:1.6em;margin-top:3px;float:right" th:onclick="location.reload()" title="刷新">
         <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
     </a>
@@ -27,6 +27,7 @@
                             </div>
                             <div class="layui-inline">
                                 <button type="button" class="layui-btn layui-btn-sm"  lay-submit="" th:onclick="reloadData()"><i class="layui-icon">&#xe615;</i></button>
+                                <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">重置</button>
                             </div>
                         </form>
                     </div>
@@ -41,38 +42,38 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'add')}">
+        <shiro:hasPermission name="busTask:add">
             <button type="button" class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon"></i>新增</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'edit')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="busTask:edit">
             <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit"><i class="layui-icon"></i>编辑</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'del')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="busTask:del">
             <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del"><i class="layui-icon"></i>删除</button>
-        </th:block>
+        </shiro:hasPermission>
     </div>
 </script>
 <script type="text/html" id="barDemo">
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'info')}">
+    <shiro:hasPermission name="busTask:info">
         <a class="layui-btn layui-btn-xs" lay-event="info">详情</a>
-    </th:block>
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'execution')}">
+    </shiro:hasPermission>
+    <shiro:hasPermission name="busTask:execution">
         <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="execution">执行</a>
-    </th:block>
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'stopOrRestore')}">
+    </shiro:hasPermission>
+    <shiro:hasPermission name="busTask:stopOrRestore">
         {{# if(d.trigger_state == 'N'){ }}
         <a id="stopOrRestore{{d.job_group}}{{d.job_name}}" title="Y" class="layui-btn layui-btn-normal layui-btn-xs" lay-event="stopOrRestore">恢复</a>
         {{#    } }}
         {{# if(d.trigger_state == 'Y'){ }}
         <a id="stopOrRestore{{d.job_group}}{{d.job_name}}" title="N" class="layui-btn layui-btn-normal layui-btn-xs" lay-event="stopOrRestore">停止</a>
         {{#    } }}
-    </th:block>
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'edit')}">
+    </shiro:hasPermission>
+    <shiro:hasPermission name="busTask:edit">
         <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编辑</a>
-    </th:block>
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'del')}">
+    </shiro:hasPermission>
+    <shiro:hasPermission name="busTask:del">
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    </th:block>
+    </shiro:hasPermission>
 </script>
 <script>
     var table,form;

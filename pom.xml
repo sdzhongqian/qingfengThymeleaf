@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.qingfeng</groupId>
@@ -11,14 +11,9 @@
   <modules>
     <module>qingfeng-common</module>
     <module>qingfeng-system</module>
-
     <module>qingfeng-thymeleaf</module>
-
   </modules>
-
   <name>com.qingfeng</name>
-  <url>http://www.example.com</url>
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -33,7 +28,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.3.0.RELEASE</version>
+    <version>2.6.2</version>
   </parent>
 
   <dependencies>
@@ -96,21 +91,22 @@
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <version>5.1.39</version>
+      <version>8.0.11</version>
+      <!--      <version>5.1.39</version>-->
     </dependency>
 
     <!--sqlserver-->
-    <dependency>
-      <groupId>com.microsoft.sqlserver</groupId>
-      <artifactId>sqljdbc4</artifactId>
-      <version>4.0</version>
-    </dependency>
+    <!--    <dependency>-->
+    <!--      <groupId>com.microsoft.sqlserver</groupId>-->
+    <!--      <artifactId>sqljdbc4</artifactId>-->
+    <!--      <version>4.0</version>-->
+    <!--    </dependency>-->
     <!--oracle-->
-    <dependency>
-      <groupId>com.oracle</groupId>
-      <artifactId>ojdbc7</artifactId>
-      <version>12.1.0.2</version>
-    </dependency>
+    <!--    <dependency>-->
+    <!--      <groupId>com.oracle</groupId>-->
+    <!--      <artifactId>ojdbc7</artifactId>-->
+    <!--      <version>12.1.0.2</version>-->
+    <!--    </dependency>-->
     <!-- pagehelper -->
     <dependency>
       <groupId>com.github.pagehelper</groupId>
@@ -127,6 +123,35 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-log4j2</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-jul</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-slf4j-impl</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>2.17.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.17.0</version>
     </dependency>
 
     <!--使用AspectJ方式注解需要相应的包-->
@@ -181,32 +206,32 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.4</version>
+      <version>3.12.0</version>
     </dependency>
     <dependency>
       <groupId>commons-collections</groupId>
       <artifactId>commons-collections</artifactId>
-      <version>3.2.1</version>
+      <version>3.2.2</version>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.4</version>
+      <version>2.11.0</version>
     </dependency>
     <dependency>
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
-      <version>1.9.3</version>
+      <version>1.9.4</version>
     </dependency>
     <dependency>
       <groupId>commons-fileupload</groupId>
       <artifactId>commons-fileupload</artifactId>
-      <version>1.3.1</version>
+      <version>1.4</version>
     </dependency>
     <dependency>
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>
-      <version>1.10</version>
+      <version>1.15</version>
     </dependency>
 
     <!--json -->
@@ -283,13 +308,6 @@
       <optional>true</optional>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
-    <dependency>
-      <groupId>net.coobird</groupId>
-      <artifactId>thumbnailator</artifactId>
-      <version>0.4.8</version>
-    </dependency>
-
     <!--sqlite-->
     <dependency>
       <groupId>org.xerial</groupId>
@@ -341,7 +359,7 @@
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
-      <version>4.3.4</version>
+      <version>4.5.13</version>
     </dependency>
     <dependency>
       <groupId>com.google.zxing</groupId>
@@ -405,24 +423,23 @@
     <dependency>
       <groupId>org.apache.shiro</groupId>
       <artifactId>shiro-core</artifactId>
-      <version>1.2.5</version>
+      <version>1.7.1</version>
     </dependency>
     <dependency>
       <groupId>org.apache.shiro</groupId>
       <artifactId>shiro-web</artifactId>
-      <version>1.2.5</version>
+      <version>1.7.1</version>
     </dependency>
     <dependency>
       <groupId>org.apache.shiro</groupId>
       <artifactId>shiro-ehcache</artifactId>
-      <version>1.2.5</version>
+      <version>1.7.1</version>
     </dependency>
     <dependency>
       <groupId>org.apache.shiro</groupId>
       <artifactId>shiro-spring</artifactId>
-      <version>1.2.5</version>
+      <version>1.7.1</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.crazycake/shiro-redis -->
     <dependency>
       <groupId>org.crazycake</groupId>
       <artifactId>shiro-redis</artifactId>
@@ -437,7 +454,7 @@
     <dependency>
       <groupId>net.mingsoft</groupId>
       <artifactId>shiro-freemarker-tags</artifactId>
-      <version>0.1</version>
+      <version>1.0.2</version>
       <exclusions>
         <exclusion>
           <artifactId>fastjson</artifactId>
@@ -449,6 +466,14 @@
         </exclusion>
         <exclusion>
           <artifactId>shiro-core</artifactId>
+          <groupId>org.apache.shiro</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>shiro-all</artifactId>
+          <groupId>org.apache.shiro</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>shiro-guice</artifactId>
           <groupId>org.apache.shiro</groupId>
         </exclusion>
       </exclusions>
@@ -467,42 +492,45 @@
       <version>1.19</version>
     </dependency>
 
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- thymeleaf整合shiro标签 -->
+    <dependency>
+      <groupId>com.github.theborakompanioni</groupId>
+      <artifactId>thymeleaf-extras-shiro</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.binarywang</groupId>
+      <artifactId>weixin-java-miniapp</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.binarywang</groupId>
+      <artifactId>weixin-java-pay</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>net.coobird</groupId>
+      <artifactId>thumbnailator</artifactId>
+      <version>0.4.15</version>
+    </dependency>
+
+    <dependency>
+      <groupId>de.schlichtherle.truelicense</groupId>
+      <artifactId>truelicense-core</artifactId>
+      <version>1.33</version>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <!--<version>2.3.4.RELEASE</version>-->
-        <configuration>
-          <fork>true</fork>
-          <skip>true</skip>
-          <!-- spring-boot:run 中文乱码解决 -->
-          <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
-          <!--<jvmArguments>-->
-          <!-- -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005 -Dfile.encoding=UTF-8-->
-          <!--</jvmArguments>-->
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>3.7.1</version>
-      </plugin>
-      <!-- mybatis generator 自动生成代码插件 -->
-      <plugin>
-        <groupId>org.mybatis.generator</groupId>
-        <artifactId>mybatis-generator-maven-plugin</artifactId>
-        <version>1.3.2</version>
-        <configuration>
-          <!-- 配置文件路径 -->
-          <configurationFile>${basedir}/src/main/resources/generatorConfig.xml</configurationFile>
-          <overwrite>true</overwrite>
-          <verbose>true</verbose>
-        </configuration>
-      </plugin>
-    </plugins>
-
-  </build>
 
 </project>

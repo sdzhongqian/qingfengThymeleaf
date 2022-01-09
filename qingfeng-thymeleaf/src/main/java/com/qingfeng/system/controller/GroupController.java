@@ -5,6 +5,7 @@ import com.qingfeng.system.service.GroupService;
 import com.qingfeng.system.service.UserService;
 import com.qingfeng.util.*;
 import net.sf.jxls.transformer.XLSTransformer;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -44,9 +45,10 @@ public class GroupController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:48 
-	 */ 
+	 */
+	@RequiresPermissions("groupList")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-		public String index(ModelMap map, HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String index(ModelMap map, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		PageData pd = new PageData(request);
 		map.put("pd",pd);
 		return "web/system/group/group_list";
@@ -58,7 +60,8 @@ public class GroupController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:48 
-	 */ 
+	 */
+	@RequiresPermissions("groupList")
 	@RequestMapping(value = "/findListPage", method = RequestMethod.GET)
 	public void findListPage(Page page, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		PageData pd = new PageData(request);
@@ -93,7 +96,8 @@ public class GroupController extends BaseController {
      * @return: void 
      * @Author: anxingtao
      * @Date: 2020-9-22 22:48 
-     */ 
+     */
+	@RequiresPermissions("groupList")
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     public void findList(HttpServletRequest request, HttpServletResponse response) throws IOException  {
     	PageData pd = new PageData(request);
@@ -112,7 +116,8 @@ public class GroupController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:48 
-	 */ 
+	 */
+	@RequiresPermissions("group:info")
 	@RequestMapping(value = "/findInfo", method = RequestMethod.GET)
 	public String findInfo(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -134,7 +139,8 @@ public class GroupController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:48 
-	 */ 
+	 */
+	@RequiresPermissions("group:add")
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 		public String toAdd(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -148,7 +154,8 @@ public class GroupController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:48 
-	 */ 
+	 */
+	@RequiresPermissions("group:add")
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public void save(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -192,6 +199,7 @@ public class GroupController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-9-23 22:54
 	 */
+	@RequiresPermissions("group:addMore")
 	@RequestMapping(value = "/toAddMore", method = RequestMethod.GET)
 	public String toAddMore(ModelMap map,HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -207,6 +215,7 @@ public class GroupController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-9-23 22:32
 	 */
+	@RequiresPermissions("group:addMore")
 	@RequestMapping(value = "/saveMore", method = RequestMethod.POST)
 	public void saveMore(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws Exception  {
 		PageData pd = new PageData(request);
@@ -259,7 +268,8 @@ public class GroupController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:48 
-	 */ 	
+	 */
+	@RequiresPermissions("group:edit")
 	@RequestMapping(value = "/toUpdate", method = RequestMethod.GET)
 	public String toUpdate(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -280,7 +290,8 @@ public class GroupController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:48 
-	 */ 
+	 */
+	@RequiresPermissions("group:edit")
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public void update(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -321,7 +332,8 @@ public class GroupController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:49 
-	 */ 
+	 */
+	@RequiresPermissions("group:del")
 	@RequestMapping(value = "/del", method = RequestMethod.GET)
 	public void del(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);
@@ -342,7 +354,8 @@ public class GroupController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:49 
-	 */ 
+	 */
+	@RequiresPermissions("group:setStatus")
 	@RequestMapping(value = "/updateStatus", method = RequestMethod.GET)
 	public void updateStatus(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);
@@ -364,6 +377,7 @@ public class GroupController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-9-23 22:59
 	 */
+	@RequiresPermissions("group:exportExcel")
 	@RequestMapping(value = "/exportData", method = RequestMethod.GET)
 	public void exportData(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 		PageData pd = new PageData(request);

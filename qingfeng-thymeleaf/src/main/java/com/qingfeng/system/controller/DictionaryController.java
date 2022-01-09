@@ -4,6 +4,7 @@ import com.qingfeng.base.controller.BaseController;
 import com.qingfeng.system.service.DictionaryService;
 import com.qingfeng.util.*;
 import net.sf.jxls.transformer.XLSTransformer;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -41,7 +42,8 @@ public class DictionaryController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:47 
-	 */ 
+	 */
+	@RequiresPermissions("dictionaryList")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 		public String index(ModelMap map, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		PageData pd = new PageData(request);
@@ -55,7 +57,8 @@ public class DictionaryController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:47 
-	 */ 
+	 */
+	@RequiresPermissions("dictionaryList")
 	@RequestMapping(value = "/findListPage", method = RequestMethod.GET)
 	public void findListPage(Page page, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		PageData pd = new PageData(request);
@@ -90,7 +93,8 @@ public class DictionaryController extends BaseController {
      * @return: void 
      * @Author: anxingtao
      * @Date: 2020-9-22 22:47 
-     */ 
+     */
+	@RequiresPermissions("dictionaryList")
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     public void findList(HttpServletRequest request, HttpServletResponse response) throws IOException  {
     	PageData pd = new PageData(request);
@@ -109,7 +113,8 @@ public class DictionaryController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:47 
-	 */ 
+	 */
+	@RequiresPermissions("dictionary:info")
 	@RequestMapping(value = "/findInfo", method = RequestMethod.GET)
 	public String findInfo(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -125,7 +130,8 @@ public class DictionaryController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:47 
-	 */ 
+	 */
+	@RequiresPermissions("dictionary:add")
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 		public String toAdd(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -139,12 +145,12 @@ public class DictionaryController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:47 
-	 */ 
+	 */
+	@RequiresPermissions("dictionary:add")
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public void save(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
 		Json json = new Json();
-		System.out.println("#############:"+pd.get("code"));
 		PageData param = new PageData();
 		param.put("codes", Arrays.asList(pd.get("code").toString().split(",")));
 		List<PageData> list = dictionaryService.findList(param);
@@ -184,6 +190,7 @@ public class DictionaryController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-9-23 23:51
 	 */
+	@RequiresPermissions("dictionary:addMore")
 	@RequestMapping(value = "/toAddMore", method = RequestMethod.GET)
 	public String toAddMore(ModelMap map,HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -199,6 +206,7 @@ public class DictionaryController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-9-23 23:51
 	 */
+	@RequiresPermissions("dictionary:addMore")
 	@RequestMapping(value = "/saveMore", method = RequestMethod.POST)
 	public void saveMore(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws Exception  {
 		PageData pd = new PageData(request);
@@ -258,7 +266,8 @@ public class DictionaryController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:48 
-	 */ 	
+	 */
+	@RequiresPermissions("dictionary:edit")
 	@RequestMapping(value = "/toUpdate", method = RequestMethod.GET)
 	public String toUpdate(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -273,7 +282,8 @@ public class DictionaryController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:48 
-	 */ 
+	 */
+	@RequiresPermissions("dictionary:edit")
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public void update(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -315,7 +325,8 @@ public class DictionaryController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:48 
-	 */ 
+	 */
+	@RequiresPermissions("dictionary:del")
 	@RequestMapping(value = "/del", method = RequestMethod.GET)
 	public void del(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);
@@ -334,7 +345,8 @@ public class DictionaryController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:52
-	 */ 
+	 */
+	@RequiresPermissions("dictionary:setStatus")
 	@RequestMapping(value = "/updateStatus", method = RequestMethod.GET)
 	public void updateStatus(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);
@@ -355,7 +367,8 @@ public class DictionaryController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-24 0:18 
-	 */ 
+	 */
+	@RequiresPermissions("dictionary:exportExcel")
 	@RequestMapping(value = "/exportData", method = RequestMethod.GET)
 	public void exportData(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 		PageData pd = new PageData(request);

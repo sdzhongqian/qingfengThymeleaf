@@ -29,7 +29,7 @@ public class TimerController extends BaseController {
 
     @Scheduled(cron = "0 */5 * * * ?")
     public void execSql() throws Exception{
-        System.out.println("开始执行定时器。。。。");
+//        System.out.println("开始执行定时器。。。。");
     }
 
 

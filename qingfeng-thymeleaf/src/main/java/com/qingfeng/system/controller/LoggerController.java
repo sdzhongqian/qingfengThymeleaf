@@ -4,6 +4,7 @@ import com.qingfeng.base.controller.BaseController;
 import com.qingfeng.system.service.LoggerService;
 import com.qingfeng.util.*;
 import net.sf.jxls.transformer.XLSTransformer;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -41,8 +42,9 @@ public class LoggerController extends BaseController {
 	* @Author: anxingtao
 	* @Date: 2018-9-3 15:00
 	*/
+	@RequiresPermissions("loggerList")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-		public String index(ModelMap map, HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String index(ModelMap map, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		PageData pd = new PageData(request);
 		map.put("pd",pd);
 		return "web/system/logger/logger_list";
@@ -55,6 +57,7 @@ public class LoggerController extends BaseController {
 	* @Author: anxingtao
 	* @Date: 2018-9-3 15:00
 	*/
+	@RequiresPermissions("loggerList")
 	@RequestMapping(value = "/findListPage", method = RequestMethod.GET)
 	public void findListPage(Page page, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		PageData pd = new PageData(request);
@@ -90,6 +93,7 @@ public class LoggerController extends BaseController {
     * @Author: anxingtao
     * @Date: 2018-9-3 15:01
     */
+	@RequiresPermissions("loggerList")
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     public void findList(HttpServletRequest request, HttpServletResponse response) throws IOException  {
     	PageData pd = new PageData(request);
@@ -109,6 +113,7 @@ public class LoggerController extends BaseController {
 	* @Author: anxingtao
 	* @Date: 2018-9-3 15:01
 	*/
+	@RequiresPermissions("logger:info")
 	@RequestMapping(value = "/findInfo", method = RequestMethod.GET)
 	public String findInfo(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -125,6 +130,7 @@ public class LoggerController extends BaseController {
 	* @Author: anxingtao
 	* @Date: 2018-9-3 15:03
 	*/
+	@RequiresPermissions("logger:del")
 	@RequestMapping(value = "/del", method = RequestMethod.GET)
 	public void del(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);
@@ -143,7 +149,8 @@ public class LoggerController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-27 17:16
-	 */ 
+	 */
+	@RequiresPermissions("logger:exportExcel")
 	@RequestMapping(value = "/exportData", method = RequestMethod.GET)
 	public void exportData(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 		PageData pd = new PageData(request);

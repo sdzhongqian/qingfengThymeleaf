@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <th:block th:include="/web/system/admin/include :: top"></th:block>
 </head>
@@ -26,10 +26,10 @@
                                 <input type="text" name="title" id="title" style="width: 180px;height: 32px;display: inline" placeholder="请输入主题名称" class="layui-input">
                             </div>
                             <div class="layui-inline">
-                                <div style="float: left;padding-top: 5px;">
+                                <div style="float: left;line-height: 52px;">
                                     <label class="layui-form-lab" style="width: auto">主题类型</label>
                                 </div>
-                                <div style="float: left;padding-left: 5px">
+                                <div style="float: left;padding: 10px 5px;">
                                     <select name="type" id="type" style="width: 120px;height: 32px;" class="layui-input">
                                         <option value=""></option>
                                         <option value="0">系统主题</option>
@@ -38,10 +38,10 @@
                                 </div>
                             </div>
                             <div class="layui-inline">
-                                <div style="float: left;padding-top: 5px;">
+                                <div style="float: left;line-height: 52px;">
                                     <label class="layui-form-lab" style="width: auto">状态</label>
                                 </div>
-                                <div style="float: left;padding-left: 5px">
+                                <div style="float: left;padding: 10px 5px;">
                                     <select name="status" id="status" style="width: 120px;height: 32px;" class="layui-input">
                                         <option value=""></option>
                                         <option value="0">启用</option>
@@ -51,6 +51,7 @@
                             </div>
                             <div class="layui-inline">
                                 <button type="button" class="layui-btn layui-btn-sm"  lay-submit="" th:onclick="reloadData()"><i class="layui-icon">&#xe615;</i></button>
+                                <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">重置</button>
                             </div>
                         </form>
                     </div>
@@ -65,27 +66,27 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'add')}">
+        <shiro:hasPermission name="theme:add">
             <button type="button" class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon"></i>新增</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'exportExcel')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="theme:exportExcel">
             <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="exportExcel"><i class="layui-icon">&#xe67d</i>导出</button>
-        </th:block>
+        </shiro:hasPermission>
     </div>
 </script>
 <script type="text/html" id="barDemo">
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'info')}">
+    <shiro:hasPermission name="theme:info">
         <a class="layui-btn layui-btn-xs" lay-event="info">详情</a>
-    </th:block>
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'exportExcel')}">
+    </shiro:hasPermission>
+    <shiro:hasPermission name="theme:exportExcel">
         <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="exportExcel">导出</a>
-    </th:block>
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'setStatus')}">
+    </shiro:hasPermission>
+    <shiro:hasPermission name="theme:setStatus">
         {{ d.status == '0' ? '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="setStatus1">禁用</a>' : '' }}
         {{ d.status == '1' ? '<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="setStatus0">启用</a>' : '' }}
-    </th:block>
+    </shiro:hasPermission>
     {{# if(d.type == '1'){ }}
-    <th:block th:include="/web/system/auth/auth_editdel :: auth_del"></th:block>
+    <th:block th:include="/web/system/auth/auth_editdel :: auth_del('theme')"></th:block>
     {{#    } }}
 </script>
 <script>

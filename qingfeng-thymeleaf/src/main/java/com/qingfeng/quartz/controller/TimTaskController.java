@@ -7,6 +7,7 @@ import com.qingfeng.util.Json;
 import com.qingfeng.util.Page;
 import com.qingfeng.util.PageData;
 import com.qingfeng.util.Verify;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -44,6 +45,7 @@ public class TimTaskController extends BaseController {
      * @Author: anxingtao
      * @Date: 2019-6-5 15:10
      */
+    @RequiresPermissions("timTaskList")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(ModelMap map,HttpServletRequest request, HttpServletResponse response) throws IOException {
         PageData pd = new PageData(request);
@@ -58,6 +60,7 @@ public class TimTaskController extends BaseController {
      * @Author: anxingtao
      * @Date: 2018-8-24 11:51
      */
+    @RequiresPermissions("timTaskList")
     @RequestMapping(value = "/findListPage", method = RequestMethod.GET)
     public void findListPage(Page page, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
         PageData pd = new PageData(request);
@@ -95,6 +98,7 @@ public class TimTaskController extends BaseController {
      * @Author: anxingtao
      * @Date: 2018-8-24 11:53
      */
+    @RequiresPermissions("timTask:info")
     @RequestMapping(value = "/findInfo", method = RequestMethod.GET)
     public String findInfo(ModelMap map,HttpServletRequest request)  {
         PageData pd = new PageData(request);
@@ -110,6 +114,7 @@ public class TimTaskController extends BaseController {
      * @Author: anxingtao
      * @Date: 2018-8-24 12:58
      */
+    @RequiresPermissions("timTask:add")
     @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
     public String toAdd(ModelMap map,HttpServletRequest request)  {
         PageData pd = new PageData(request);
@@ -123,6 +128,7 @@ public class TimTaskController extends BaseController {
      * @Author: anxingtao
      * @Date: 2018-8-24 13:02
      */
+    @RequiresPermissions("timTask:add")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public void save(QuartzEntity quartz, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException  {
         PageData pd = new PageData(request);
@@ -164,6 +170,7 @@ public class TimTaskController extends BaseController {
      * @Author: anxingtao
      * @Date: 2018-8-24 13:02
      */
+    @RequiresPermissions("timTask:edit")
     @RequestMapping(value = "/toUpdate", method = RequestMethod.GET)
     public String toUpdate(ModelMap map,HttpServletRequest request)  {
         PageData pd = new PageData(request);
@@ -178,6 +185,7 @@ public class TimTaskController extends BaseController {
      * @Author: anxingtao
      * @Date: 2018-8-24 13:03
      */
+    @RequiresPermissions("timTask:edit")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public void update(QuartzEntity quartz,HttpServletRequest request,HttpServletResponse response) throws IOException  {
         PageData pd = new PageData(request);
@@ -220,6 +228,7 @@ public class TimTaskController extends BaseController {
      * @Author: anxingtao
      * @Date: 2018-8-27 14:46
      */
+    @RequiresPermissions("timTask:del")
     @RequestMapping(value = "/del", method = RequestMethod.GET)
     public void del(HttpServletRequest request,HttpServletResponse response) throws IOException  {
         PageData pd = new PageData(request);
@@ -255,6 +264,7 @@ public class TimTaskController extends BaseController {
      * @Author: anxingtao
      * @Date: 2019-6-5 17:34
      */
+    @RequiresPermissions("timTask:execution")
     @RequestMapping(value = "/execution", method = RequestMethod.GET)
     public void execution(HttpServletRequest request,HttpServletResponse response) throws IOException  {
         PageData pd = new PageData(request);
@@ -280,6 +290,7 @@ public class TimTaskController extends BaseController {
      * @Author: anxingtao
      * @Date: 2019-6-5 17:40
      */
+    @RequiresPermissions("timTask:stopOrRestore")
     @RequestMapping(value = "/stopOrRestore", method = RequestMethod.GET)
     public void stopOrRestore(HttpServletRequest request,HttpServletResponse response) throws IOException  {
         PageData pd = new PageData(request);

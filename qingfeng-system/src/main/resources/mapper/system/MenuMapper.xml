@@ -267,7 +267,7 @@
 			</if>
 			group by a.parent_id
 		) b on a.id=b.parent_id
-		where a.id in (
+		where a.url!='excludeUrl' and a.id in (
 			select
 			a.id
 			from system_menu a

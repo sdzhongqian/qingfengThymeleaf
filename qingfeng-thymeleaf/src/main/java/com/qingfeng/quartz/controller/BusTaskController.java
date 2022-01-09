@@ -4,6 +4,7 @@ import com.qingfeng.base.controller.BaseController;
 import com.qingfeng.quartz.model.QuartzEntity;
 import com.qingfeng.quartz.service.BusTaskService;
 import com.qingfeng.util.*;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -42,8 +43,9 @@ public class BusTaskController extends BaseController {
 	* @Author: anxingtao
 	* @Date: 2018-9-3 15:00
 	*/
+	@RequiresPermissions("busTaskList")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-		public String index(ModelMap map, HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String index(ModelMap map, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		PageData pd = new PageData(request);
 		map.put("pd",pd);
 		return "web/quartz/busTask/busTask_list";
@@ -56,6 +58,7 @@ public class BusTaskController extends BaseController {
 	* @Author: anxingtao
 	* @Date: 2018-9-3 15:00
 	*/
+	@RequiresPermissions("busTaskList")
 	@RequestMapping(value = "/findListPage", method = RequestMethod.GET)
 	public void findListPage(Page page, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		PageData pd = new PageData(request);
@@ -91,6 +94,7 @@ public class BusTaskController extends BaseController {
     * @Author: anxingtao
     * @Date: 2018-9-3 15:01
     */
+	@RequiresPermissions("busTaskList")
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     public void findList(HttpServletRequest request, HttpServletResponse response) throws IOException  {
     	PageData pd = new PageData(request);
@@ -110,6 +114,7 @@ public class BusTaskController extends BaseController {
 	* @Author: anxingtao
 	* @Date: 2018-9-3 15:01
 	*/
+	@RequiresPermissions("busTask:info")
 	@RequestMapping(value = "/findInfo", method = RequestMethod.GET)
 	public String findInfo(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -127,6 +132,7 @@ public class BusTaskController extends BaseController {
 	* @Author: anxingtao
 	* @Date: 2018-9-3 15:01
 	*/
+	@RequiresPermissions("busTask:add")
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 		public String toAdd(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -141,6 +147,7 @@ public class BusTaskController extends BaseController {
 	* @Author: anxingtao
 	* @Date: 2018-9-3 15:01
 	*/
+	@RequiresPermissions("busTask:add")
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public void save(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -216,6 +223,7 @@ public class BusTaskController extends BaseController {
 	* @Author: anxingtao
 	* @Date: 2018-9-3 15:02
 	*/
+	@RequiresPermissions("busTask:edit")
 	@RequestMapping(value = "/toUpdate", method = RequestMethod.GET)
 	public String toUpdate(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -232,6 +240,7 @@ public class BusTaskController extends BaseController {
 	* @Author: anxingtao
 	* @Date: 2018-9-3 15:03
 	*/
+	@RequiresPermissions("busTask:edit")
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public void update(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -301,6 +310,7 @@ public class BusTaskController extends BaseController {
 	* @Author: anxingtao
 	* @Date: 2018-9-3 15:03
 	*/
+	@RequiresPermissions("busTask:del")
 	@RequestMapping(value = "/del", method = RequestMethod.GET)
 	public void del(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);
@@ -335,6 +345,7 @@ public class BusTaskController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2019-6-5 17:34
 	 */
+	@RequiresPermissions("busTask:execution")
 	@RequestMapping(value = "/execution", method = RequestMethod.GET)
 	public void execution(HttpServletRequest request,HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);
@@ -360,6 +371,7 @@ public class BusTaskController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2019-6-5 17:40
 	 */
+	@RequiresPermissions("busTask:stopOrRestore")
 	@RequestMapping(value = "/stopOrRestore", method = RequestMethod.GET)
 	public void stopOrRestore(HttpServletRequest request,HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);
@@ -371,11 +383,9 @@ public class BusTaskController extends BaseController {
 			System.out.println(pd.get("type"));
 			if(pd.get("type").equals("N")){
 				scheduler.pauseJob(key);
-				System.out.println("停止。。。。。");
 				pd.put("trigger_state","N");
 			}else if(pd.get("type").equals("Y")){
 				scheduler.resumeJob(key);
-				System.out.println("启动。。。。。");
 				pd.put("trigger_state","Y");
 				pd.put("trigger_time",DateTimeUtil.getDateTimeStr());
 			}
@@ -398,6 +408,7 @@ public class BusTaskController extends BaseController {
 	* @Author: anxingtao
 	* @Date: 2018-9-3 15:04
 	*/
+	@RequiresPermissions("busTask:setStatus")
 	@RequestMapping(value = "/updateStatus", method = RequestMethod.GET)
 	public void updateStatus(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);

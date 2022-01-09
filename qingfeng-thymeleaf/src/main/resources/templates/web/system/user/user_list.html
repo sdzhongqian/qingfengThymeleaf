@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <th:block th:include="/web/system/admin/include :: top"></th:block>
 </head>
@@ -42,10 +42,10 @@
                                     <input type="text" name="phone" id="phone" style="width: 180px;height: 32px;display: inline" placeholder="请输入手机号" class="layui-input">
                                 </div>
                                 <div class="layui-inline">
-                                    <div style="float: left;padding-top: 5px;">
+                                    <div style="float: left;line-height: 52px;">
                                         <label class="layui-form-lab" style="width: auto">状态</label>
                                     </div>
-                                    <div style="float: left;padding-left: 5px">
+                                    <div style="float: left;padding: 10px 5px;">
                                         <select name="status" id="status" style="width: 120px;height: 32px;" class="layui-input">
                                             <option value=""></option>
                                             <option value="0">启用</option>
@@ -56,6 +56,7 @@
                                 </div>
                                 <div class="layui-inline">
                                     <button type="button" class="layui-btn layui-btn-sm"  lay-submit="" onclick="reloadData()"><i class="layui-icon">&#xe615;</i></button>
+                                    <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">重置</button>
                                 </div>
                             </form>
                         </div>
@@ -71,53 +72,52 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'add')}">
+        <span shiro:hasPermission="user:add">
             <button type="button" class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon"></i>新增</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'addMore')}">
+        </span>
+        <span shiro:hasPermission="user:addMore">
             <button type="button" class="layui-btn layui-btn-sm" lay-event="addMore"><i class="layui-icon"></i>批量新增</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'edit')}">
+        </span>
+        <span shiro:hasPermission="user:edit">
             <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit"><i class="layui-icon"></i>编辑</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'del')}">
+        </span>
+        <shiro:hasPermission name="user:del">
             <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del"><i class="layui-icon"></i>删除</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'resetPwd')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="user:resetPwd">
             <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="resetPwd"><i class="layui-icon">&#xe673;</i>密码重置</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'assignAuth')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="user:assignAuth">
             <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="assignAuth"><i class="layui-icon">&#xe716;</i>权限分配</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'exportExcel')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="user:exportExcel">
             <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" lay-event="exportExcel"><i class="layui-icon">&#xe67d</i>导出</button>
-        </th:block>
+        </shiro:hasPermission>
     </div>
 </script>
 <script type="text/html" id="barDemo">
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'info')}">
+    <shiro:hasPermission name="user:info">
         <a class="layui-btn layui-btn-xs" lay-event="info">详情</a>
-    </th:block>
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'resetPwd')}">
+    </shiro:hasPermission>
+    <shiro:hasPermission name="user:resetPwd">
         <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="resetPwd">密码重置</a>
-    </th:block>
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'assignAuth')}">
+    </shiro:hasPermission>
+    <shiro:hasPermission name="user:assignAuth">
         <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="assignAuth">分配权限</a>
-    </th:block>
-    <th:block th:include="/web/system/auth/auth_editdel :: auth_edit_del"></th:block>
-
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'setStatus')}">
+    </shiro:hasPermission>
+    <th:block th:include="/web/system/auth/auth_editdel :: auth_edit_del('user')"></th:block>
+    <shiro:hasPermission name="user:setStatus">
         {{ d.status == '0' ? '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="setStatus1">禁用</a>' : '' }}
         {{ d.status == '1' ? '<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="setStatus0">启用</a>' : '' }}
         {{ d.status == '2' ? '<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="setStatus0">恢复</a>' : '' }}
-    </th:block>
+    </shiro:hasPermission>
 </script>
 
 <script type="text/javascript" th:src="@{/static/js/jquery-1.9.1.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/plugins/ztree/js/jquery.ztree.core.js}"></script>
 <script type="text/javascript" th:src="@{/static/plugins/ztree/js/jquery.ztree.all.js}"></script>
 <link rel="stylesheet" th:href="@{/static/plugins/ztree/css/zTreeStyle/zTreeStyle.css}" type="text/css" />
-<th:block th:include="web/system/organize/organize_ztree"></th:block>
+<th:block th:include="/web/system/organize/organize_ztree"></th:block>
 <script>
     var table,form;
     layui.use(['table','form'], function(){

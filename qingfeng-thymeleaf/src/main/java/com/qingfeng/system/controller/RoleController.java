@@ -1,11 +1,13 @@
 package com.qingfeng.system.controller;
 
 import com.qingfeng.base.controller.BaseController;
+import com.qingfeng.framework.shiro.service.ShiroService;
 import com.qingfeng.system.service.OrganizeService;
 import com.qingfeng.system.service.RoleService;
 import com.qingfeng.system.service.UserService;
 import com.qingfeng.util.*;
 import net.sf.jxls.transformer.XLSTransformer;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -37,6 +39,8 @@ public class RoleController extends BaseController {
 	private OrganizeService organizeService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private ShiroService shiroService;
 
 	/** 
 	 * @Description: index 
@@ -44,12 +48,13 @@ public class RoleController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("roleList")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-		public String index(ModelMap map, HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String index(ModelMap map, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		PageData pd = new PageData(request);
 		map.put("pd",pd);
-		return "web/system/role/role_list";
+		return "/web/system/role/role_list";
 	}
 
 	/** 
@@ -58,7 +63,8 @@ public class RoleController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("roleList")
 	@RequestMapping(value = "/findListPage", method = RequestMethod.GET)
 	public void findListPage(Page page, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		PageData pd = new PageData(request);
@@ -93,7 +99,8 @@ public class RoleController extends BaseController {
      * @return: void 
      * @Author: anxingtao
      * @Date: 2020-9-22 22:51 
-     */ 
+     */
+	@RequiresPermissions("roleList")
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     public void findList(HttpServletRequest request, HttpServletResponse response) throws IOException  {
     	PageData pd = new PageData(request);
@@ -112,13 +119,14 @@ public class RoleController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("role:info")
 	@RequestMapping(value = "/findInfo", method = RequestMethod.GET)
 	public String findInfo(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
 		PageData p = roleService.findInfo(pd);
 		map.addAttribute("p",p);
-		return "web/system/role/role_info";
+		return "/web/system/role/role_info";
 	}
 
 
@@ -128,12 +136,13 @@ public class RoleController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("role:add")
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 		public String toAdd(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
 		map.put("pd",pd);
-		return "web/system/role/role_add";
+		return "/web/system/role/role_add";
 	}
 
 	/** 
@@ -142,7 +151,8 @@ public class RoleController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("role:add")
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public void save(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -174,11 +184,12 @@ public class RoleController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-9-23 22:32
 	 */
+	@RequiresPermissions("role:addMore")
 	@RequestMapping(value = "/toAddMore", method = RequestMethod.GET)
 	public String toAddMore(ModelMap map,HttpServletRequest request)  {
 		PageData pd = new PageData(request);
 		map.put("pd",pd);
-		String return_url = "web/system/role/role_addMore";
+		String return_url = "/web/system/role/role_addMore";
 		return return_url;
 	}
 
@@ -189,6 +200,7 @@ public class RoleController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-9-23 22:32
 	 */
+	@RequiresPermissions("role:addMore")
 	@RequestMapping(value = "/saveMore", method = RequestMethod.POST)
 	public void saveMore(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws Exception  {
 		PageData pd = new PageData(request);
@@ -228,13 +240,14 @@ public class RoleController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("role:edit")
 	@RequestMapping(value = "/toUpdate", method = RequestMethod.GET)
 	public String toUpdate(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
 		PageData p = roleService.findInfo(pd);
 		map.put("p",p);
-		return "web/system/role/role_update";
+		return "/web/system/role/role_update";
 	}
 
 	/** 
@@ -243,7 +256,8 @@ public class RoleController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("role:edit")
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public void update(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -268,7 +282,8 @@ public class RoleController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("role:del")
 	@RequestMapping(value = "/del", method = RequestMethod.GET)
 	public void del(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);
@@ -294,7 +309,8 @@ public class RoleController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:52
-	 */ 
+	 */
+	@RequiresPermissions("role:setStatus")
 	@RequestMapping(value = "/updateStatus", method = RequestMethod.GET)
 	public void updateStatus(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);
@@ -315,7 +331,8 @@ public class RoleController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-23 23:21
-	 */ 
+	 */
+	@RequiresPermissions("role:exportExcel")
 	@RequestMapping(value = "/exportData", method = RequestMethod.GET)
 	public void exportData(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 		PageData pd = new PageData(request);
@@ -349,12 +366,13 @@ public class RoleController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-26 14:51 
-	 */ 
+	 */
+	@RequiresPermissions("role:assignAuth")
 	@RequestMapping(value = "/toSetAuth", method = RequestMethod.GET)
 	public String toSetAuth(ModelMap map,HttpServletRequest request)  {
 		PageData pd = new PageData(request);
 		map.put("pd",pd);
-		return "web/system/role/role_auth";
+		return "/web/system/role/role_auth";
 	}
 
 	/** 
@@ -363,7 +381,8 @@ public class RoleController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-26 14:51 
-	 */ 
+	 */
+	@RequiresPermissions("role:assignAuth")
 	@RequestMapping(value = "/findRoleMenuList", method = RequestMethod.GET)
 	public void findRoleMenuList(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -381,7 +400,8 @@ public class RoleController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-26 14:57 
-	 */ 
+	 */
+	@RequiresPermissions("role:assignAuth")
 	@RequestMapping(value = "/saveRoleMenu", method = RequestMethod.POST)
 	public void saveRoleMenu(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -403,6 +423,8 @@ public class RoleController extends BaseController {
 			list.add(param);
 		}
 		roleService.saveRoleMenu(list);
+		//重新加载权限
+		shiroService.reloadAuthorizingByRoleId(role_id);
 		Json json = new Json();
 		json.setSuccess(true);
 		json.setMsg("操作成功。");

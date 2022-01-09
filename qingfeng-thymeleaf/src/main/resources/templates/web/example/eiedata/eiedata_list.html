@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <th:block th:include="/web/system/admin/include :: top"></th:block>
 </head>
@@ -23,15 +23,15 @@
                     <div class="layui-card-body ">
                         <form class="layui-form layui-col-space5">
                             <div class="layui-inline">
-                                <div style="float: left;padding-top: 5px;">
+                                <div style="float: left;line-height: 52px;">
                                     <label class="layui-form-lab" style="width: auto">分类</label>
                                 </div>
                                 <div style="float: left;padding-left: 5px">
                                     <select name="classify" id="classify" style="width: 120px;height: 32px;" class="layui-input">
                                         <option value=""></option>
-                                                <option value="0">水果</option>
-                                                <option value="1">蔬菜</option>
-                                                <option value="2">其他</option>
+                                        <option value="0">水果</option>
+                                        <option value="1">蔬菜</option>
+                                        <option value="2">其他</option>
                                     </select>
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
                                 <button type="button" class="layui-btn layui-btn-sm layui-btn-warm" exclude="" onclick="exportMergeData();">
                                     <i class="layui-icon">&#xe601;</i>合并导出
                                 </button>
-
+                                <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">重置</button>
                             </div>
                         </form>
                     </div>
@@ -62,36 +62,34 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'add')}">
+        <shiro:hasPermission name="eiedata:add">
             <button type="button" class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon"></i>新增</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'addMore')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="eiedata:addMore">
             <button type="button" class="layui-btn layui-btn-sm" lay-event="addMore"><i class="layui-icon"></i>批量新增</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'edit')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="eiedata:edit">
             <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit"><i class="layui-icon"></i>编辑</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'del')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="eiedata:del">
             <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del"><i class="layui-icon"></i>删除</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'downloadExcel')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="eiedata:downloadExcel">
             <button class="layui-btn layui-btn-sm" onclick="downloadExcel();"><i class="layui-icon layui-icon-add"></i>模板下载</button>
-        </th:block>
-        <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'import')}">
+        </shiro:hasPermission>
+        <shiro:hasPermission name="eiedata:import">
             <button class="layui-btn layui-btn-sm" onclick="toImport();"><i class="layui-icon layui-icon-add"></i>批量导入</button>
-        </th:block>
+        </shiro:hasPermission>
     </div>
 </script>
 <script type="text/html" id="barDemo">
-    <th:block th:if="${#strings.containsIgnoreCase(menuAuthParams,'info')}">
+    <shiro:hasPermission name="eiedata:info">
         <a class="layui-btn layui-btn-xs" lay-event="info">详情</a>
-    </th:block>
-    <th:block th:include="/web/system/auth/auth_editdel :: auth_edit_del"></th:block>
+    </shiro:hasPermission>
+    <th:block th:include="/web/system/auth/auth_editdel :: auth_edit_del('eiedata')"></th:block>
 </script>
 <script type="text/javascript" th:src="@{/static/js/qfAjaxReq.js}"></script>
 <script>
-    console.log('-----------')
-    console.log(ctx)
     var table,form;
     layui.use(['table','form'], function(){
         table = layui.table;

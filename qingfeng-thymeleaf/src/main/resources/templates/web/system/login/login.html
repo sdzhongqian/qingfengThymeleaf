@@ -31,10 +31,14 @@
         <hr class="hr15">
         <input name="password" id="password" lay-verify="required|pass" placeholder="密码"  type="password" class="layui-input">
         <hr class="hr15">
-        <div id="yzm"></div>
+        <input name="verify_code" id="verify_code" value="" lay-verify="required|verify_code5" placeholder="验证码" style="width: 60%;float:left;"  type="text" class="layui-input">
+        <img id="codeImg" alt="点击更换" title="点击更换" src="" style="float:left;width: 38%;padding-left:1%;height: 45px;padding-top: 12px;"/>
+<!--        <div id="yzm"></div>-->
         <hr class="hr15">
         <input type="checkbox" name="remember" id="remember" lay-skin="primary" title="记住密码">
         <hr class="hr15">
+        <input type="hidden" name="key" th:value="${pd.key}">
+        <input type="hidden" name="my_remember" id="my_remember" value="false">
         <button id="submit_button" class="layui-btn" value="登录" lay-submit lay-filter="login" style="width:100%;font-size: 18px;height: 45px" type="submit">登录</button>
         <hr class="hr20" >
     </form>
@@ -47,41 +51,49 @@
         layui.use('form', function(){
             var form = layui.form;
             //初始化
+            changeCode();
+            $("#codeImg").bind("click",changeCode);
+
             var storage = window.localStorage;
             if(storage.getItem("login_name")!=''){
                 $("#login_name").val(storage.getItem("login_name"));//推荐使用
-                $("#password").val(storage.getItem("password"));
                 $("#remember").prop("checked",true);
                 form.render();
             }
-            $('#yzm').slideVerify({
-                type : 1,		//类型
-                vOffset : 5,	//误差量，根据需求自行调整
-                barSize : {
-                    width : '100%',
-                    height : '45px',
-                },
-                ready : function() {
-                },
-                success : function() {
-                    verify_yzm = true;
-                },
-                error : function() {
-                    //alert('验证失败！');
-                }
-            });
+            // $('#yzm').slideVerify({
+            //     type : 1,		//类型
+            //     vOffset : 5,	//误差量，根据需求自行调整
+            //     barSize : {
+            //         width : '100%',
+            //         height : '45px',
+            //     },
+            //     ready : function() {
+            //     },
+            //     success : function() {
+            //         verify_yzm = true;
+            //     },
+            //     error : function() {
+            //         //alert('验证失败！');
+            //     }
+            // });
             //自定义验证规则
             form.verify(form_verify);
             //监听提交
             form.on('submit(login)', function(data){
-                if(verify_yzm){
+                // if(verify_yzm){
                     $("#submit_button").attr('disabled',true);
+                    if($("#remember").prop("checked")){
+                        $("#my_remember").val(true);
+                    }else{
+                        $("#my_remember").val(false);
+                    }
                     $.ajax({
                         type: "POST",//方法类型
                         dataType: "json",//预期服务器返回的数据类型
                         url: ctx+"system/login/login" ,//url
                         data: $('#form').serialize(),
                         success: function (res) {
+                            console.log(res);
                             if (res.success) {
                                 layer.msg("登录成功。", {time: 1000},function(){
 
@@ -91,12 +103,10 @@
                                         }else{
                                             var storage = window.localStorage;
                                             storage.setItem("login_name",$("#login_name").val());//推荐使用
-                                            storage.setItem("password",$("#password").val());
                                         }
                                     }else{
                                         var storage = window.localStorage;
                                         storage.setItem("login_name","");//推荐使用
-                                        storage.setItem("password","");
                                     }
                                     window.location.href=ctx+"main"
                                 });
@@ -110,15 +120,18 @@
                             layer.msg("异常！");
                         }
                     });
-                }else{
-                    layer.msg("请滑动验证码完成验证", {time: 2000});
-                }
+                // }else{
+                //     layer.msg("请滑动验证码完成验证", {time: 2000});
+                // }
                 return false;
             });
         });
-
-
     })
+
+    var key = '[[${pd.key}]]';
+    function changeCode(){
+        $("#codeImg").attr("src",ctx+"system/verifyCode/getSysCode?key="+key+"&t="+new Date().getTime());
+    }
 
     //回车事件
     document.onkeydown = function (event) {

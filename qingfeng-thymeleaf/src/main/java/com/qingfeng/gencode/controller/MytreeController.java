@@ -4,6 +4,7 @@ import com.qingfeng.base.controller.BaseController;
 import com.qingfeng.common.service.UploadService;
 import com.qingfeng.gencode.service.MytreeService;
 import com.qingfeng.util.*;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -39,7 +40,8 @@ public class MytreeController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("mytreeList")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 		public String index(ModelMap map, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		PageData pd = new PageData(request);
@@ -53,7 +55,8 @@ public class MytreeController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("mytreeList")
 	@RequestMapping(value = "/findListPage", method = RequestMethod.GET)
 	public void findListPage(Page page, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		PageData pd = new PageData(request);
@@ -87,7 +90,8 @@ public class MytreeController extends BaseController {
      * @return: void 
      * @Author: anxingtao
      * @Date: 2020-9-22 22:51 
-     */ 
+     */
+	@RequiresPermissions("mytreeList")
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     public void findList(HttpServletRequest request, HttpServletResponse response) throws IOException  {
     	PageData pd = new PageData(request);
@@ -106,7 +110,8 @@ public class MytreeController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("mytree:info")
 	@RequestMapping(value = "/findInfo", method = RequestMethod.GET)
 	public String findInfo(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -123,7 +128,8 @@ public class MytreeController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("mytree:add")
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 		public String toAdd(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -137,7 +143,8 @@ public class MytreeController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("mytree:add")
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public void save(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -168,6 +175,7 @@ public class MytreeController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-9-23 22:32
 	 */
+	@RequiresPermissions("mytree:addMore")
 	@RequestMapping(value = "/toAddMore", method = RequestMethod.GET)
 	public String toAddMore(ModelMap map,HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -182,6 +190,7 @@ public class MytreeController extends BaseController {
 	 * @Author: anxingtao
 	 * @Date: 2020-9-23 22:32
 	 */
+	@RequiresPermissions("mytree:addMore")
 	@RequestMapping(value = "/saveMore", method = RequestMethod.POST)
 	public void saveMore(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws Exception  {
 		PageData pd = new PageData(request);
@@ -221,7 +230,8 @@ public class MytreeController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("mytree:edit")
 	@RequestMapping(value = "/toUpdate", method = RequestMethod.GET)
 	public String toUpdate(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -237,7 +247,8 @@ public class MytreeController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("mytree:edit")
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public void update(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -262,6 +273,7 @@ public class MytreeController extends BaseController {
 	* @Author: anxingtao
 	* @Date: 2020-9-22 22:51
 	*/
+	@RequiresPermissions("mytree:del")
 	@RequestMapping(value = "/del", method = RequestMethod.GET)
 	public void del(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);
@@ -299,13 +311,14 @@ public class MytreeController extends BaseController {
 
 
 
-        /**
+	/**
 	 * @Description: updateStatus
 	 * @Param: [request, response] 
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:52
-	 */ 
+	 */
+	@RequiresPermissions("mytree:setStatus")
 	@RequestMapping(value = "/updateStatus", method = RequestMethod.GET)
 	public void updateStatus(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);

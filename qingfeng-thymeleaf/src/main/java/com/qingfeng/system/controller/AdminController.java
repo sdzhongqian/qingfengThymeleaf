@@ -46,7 +46,6 @@ public class AdminController extends BaseController {
     @RequestMapping(value = "/saveTheme", method = RequestMethod.POST)
     public void saveTheme(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
         PageData pd = new PageData(request);
-        System.out.println(pd.toString());
         Json json = new Json();
         json.setData(pd);
         json.setSuccess(true);

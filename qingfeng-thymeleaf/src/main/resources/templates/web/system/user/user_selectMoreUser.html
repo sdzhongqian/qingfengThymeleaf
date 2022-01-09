@@ -99,11 +99,12 @@
 <div id="menuContent" class="menuContent" style="display:none; position: absolute; background-color: #eaeaea; height: 300px;width:180px; ">
     <ul id="selectOrgZtree" class="ztree" style="margin-top:0; width:180px; height: 300px;"></ul>
 </div>
-<script type="text/javascript" th:src="@{/static/js/jquery-1.9.1.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/plugins/ztree/js/jquery.ztree.core.js}"></script>
-<script type="text/javascript" th:src="@{/static/plugins/ztree/js/jquery.ztree.all.js}"></script>
-<link rel="stylesheet" th:href="@{/static/plugins/ztree/css/zTreeStyle/zTreeStyle.css}" type="text/css" />
-<th:block th:include="web/system/organize/organize_ztree"></th:block>
+<!--<script type="text/javascript" th:src="@{/static/js/jquery-1.9.1.min.js}"></script>-->
+<!--<script type="text/javascript" th:src="@{/static/plugins/ztree/js/jquery.ztree.core.js}"></script>-->
+<!--<script type="text/javascript" th:src="@{/static/plugins/ztree/js/jquery.ztree.all.js}"></script>-->
+<!--<link rel="stylesheet" th:href="@{/static/plugins/ztree/css/zTreeStyle/zTreeStyle.css}" type="text/css" />-->
+<!--<th:block th:include="web/system/organize/organize_ztree"></th:block>-->
+<th:block th:include="web/system/organize/organize_laytree"></th:block>
 <script>
     var form, $,element;
     layui.use(['form','element'], function(){

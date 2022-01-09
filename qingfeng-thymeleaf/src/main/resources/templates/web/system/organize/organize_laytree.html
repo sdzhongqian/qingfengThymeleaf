@@ -1,0 +1,104 @@
+<style>
+    .layui-tree-set-active > .layui-tree-entry .layui-tree-main {
+        background: #FFE6B0;
+    }
+</style>
+<script type="text/javascript">
+    var tree,tree_id,dic_cascade="";
+    layui.use('tree', function(){              //layui tree写法
+        tree = layui.tree;
+        var organize_id = '[[${pd.organize_id}]]';
+        if(organize_id==''||organize_id==null){
+            findTreeData("");
+        }else{
+            findTreeData(organize_id);
+        }
+    });
+
+    function findTreeData(treeId){
+        tree_id = treeId;
+        $.ajax({
+            url : ctx+"system/organize/findList?parent_cascade="+tree_id,
+            data : {},
+            type : 'GET',
+            dataType : 'json',
+            success : function(res) {
+                if (res.success) {
+                    var data = res.data;
+                    let sdata = data.filter(item => item.id===treeId);
+                    if(sdata.length!=0){
+                        dic_cascade = sdata[0].dic_cascade;
+                    }
+                    // data.push({id:'0',parent_id:'parent',name:'组织管理',org_cascade:'org',level_num:'0'});
+                    var formatdata=[];
+                    for(var i in data) {     // pId为0时表示为根节点
+                        if (data[i].parent_id == '0') {
+                            var tempObject = {};
+                            tempObject.title = data[i].name;
+                            tempObject.id = data[i].id;
+                            tempObject.spread = true;
+                            tempObject.data = data[i];
+                            tempObject.children = getChildren(tempObject.id,data);
+                            formatdata.push(tempObject);
+                        }
+                    }
+                    //渲染
+                    var inst1 = tree.render({
+                        elem: '#treeDemo'  //绑定元素
+                        ,data:formatdata
+                        // ,edit: ['add', 'update', 'del'] //操作节点的图标
+                        ,onlyIconControl: true  //是否仅允许节点左侧图标控制展开收缩
+                        ,click: function(obj){
+                            $(".layui-tree-set").removeClass('layui-tree-set-active');
+                            obj.elem.addClass('layui-tree-set-active');
+                            // layer.msg(JSON.stringify(obj.data));
+                            $("#tree_id").val(obj.data.id);
+                            $("#tree_name").val(obj.data.title);
+                            $("#dic_cascade").val(obj.data.data.dic_cascade);
+                            $("#level_num").val(obj.data.data.level_num);
+                            $("#current_dic").html("当前节点："+obj.data.title);
+                            reloadData(obj.data.id);
+                        }
+                    });
+
+                }else{
+                    if(res.loseSession=='loseSession'){
+                        loseSession(res.msg,res.url)
+                    }else{
+                        layer.msg(res.msg, {time: 2000});
+                    }
+                }
+            }
+        });
+    }
+
+    function getChildren(id,data){    //递归体  即对每条data逐条递归找children
+        var tempArray=[];
+        for(var i in data){
+            if(data[i].parent_id==id){
+                var tempChild={};
+                tempChild.title=data[i].name;
+                tempChild.id=data[i].id;
+                tempChild.data = data[i];
+                if(dic_cascade.indexOf(data[i].id)!=-1){
+                    tempChild.spread = true;
+                }
+                if(selectChildren(data[i].id,data)){   //若存在子节点，继续递归；否则为叶节点，停止递归
+                    tempChild.children=getChildren(data[i].id,data);
+                }
+                tempArray.push(tempChild);
+            }
+        }
+        return tempArray;
+    }
+    function selectChildren(id,data){   // 是否存在子节点
+        for(var i in data){
+            if(data[i].parent_id==id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+</script>

@@ -149,7 +149,7 @@ function findValueDictionary(show_id,value){
                 var names = [];
                 $.each(res.data,function(i,n){
                     names.push(n.name);
-                });
+                })
                 $("#"+show_id).html(names.join(','));
                 form.render();
             }else{

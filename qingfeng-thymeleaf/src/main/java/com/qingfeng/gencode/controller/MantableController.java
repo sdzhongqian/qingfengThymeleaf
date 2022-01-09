@@ -6,6 +6,7 @@ import com.qingfeng.gencode.service.MantableService;
 import com.qingfeng.util.*;
 import com.qingfeng.util.upload.ParaUtil;
 import net.sf.jxls.transformer.XLSTransformer;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -41,9 +42,10 @@ public class MantableController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("mantableList")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-		public String index(ModelMap map, HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String index(ModelMap map, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		PageData pd = new PageData(request);
 		map.put("pd",pd);
 		return "web/gencode/mantable/mantable_list";
@@ -55,7 +57,8 @@ public class MantableController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("mantableList")
 	@RequestMapping(value = "/findListPage", method = RequestMethod.GET)
 	public void findListPage(Page page, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		PageData pd = new PageData(request);
@@ -89,7 +92,8 @@ public class MantableController extends BaseController {
      * @return: void 
      * @Author: anxingtao
      * @Date: 2020-9-22 22:51 
-     */ 
+     */
+	@RequiresPermissions("mantableList")
     @RequestMapping(value = "/findList", method = RequestMethod.GET)
     public void findList(HttpServletRequest request, HttpServletResponse response) throws IOException  {
     	PageData pd = new PageData(request);
@@ -108,7 +112,8 @@ public class MantableController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("mantable:info")
 	@RequestMapping(value = "/findInfo", method = RequestMethod.GET)
 	public String findInfo(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -141,7 +146,8 @@ public class MantableController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("mantable:add")
 	@RequestMapping(value = "/toAdd", method = RequestMethod.GET)
 		public String toAdd(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -155,7 +161,8 @@ public class MantableController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("mantable:add")
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public void save(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -229,7 +236,8 @@ public class MantableController extends BaseController {
 	 * @return: java.lang.String 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("mantable:edit")
 	@RequestMapping(value = "/toUpdate", method = RequestMethod.GET)
 	public String toUpdate(ModelMap map, HttpServletRequest request)  {
 		PageData pd = new PageData(request);
@@ -261,7 +269,8 @@ public class MantableController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("mantable:edit")
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public void update(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException  {
 		PageData pd = new PageData(request);
@@ -333,7 +342,8 @@ public class MantableController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:51 
-	 */ 
+	 */
+	@RequiresPermissions("mantable:del")
 	@RequestMapping(value = "/del", method = RequestMethod.GET)
 	public void del(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);
@@ -365,6 +375,7 @@ public class MantableController extends BaseController {
 	* @Author: anxingtao
 	* @Date: 2020-9-22 22:51
     */
+	@RequiresPermissions("mantable:del")
 	@RequestMapping(value = "/delChild", method = RequestMethod.GET)
 	public void delChild(HttpServletRequest request, HttpServletResponse response) throws IOException  {
         PageData pd = new PageData(request);
@@ -383,7 +394,8 @@ public class MantableController extends BaseController {
 	 * @return: void 
 	 * @Author: anxingtao
 	 * @Date: 2020-9-22 22:52
-	 */ 
+	 */
+	@RequiresPermissions("mantable:setStatus")
 	@RequestMapping(value = "/updateStatus", method = RequestMethod.GET)
 	public void updateStatus(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		PageData pd = new PageData(request);
