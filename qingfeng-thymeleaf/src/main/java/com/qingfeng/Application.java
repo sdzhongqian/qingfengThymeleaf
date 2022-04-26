@@ -9,6 +9,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 
@@ -27,6 +28,7 @@ import java.util.Properties;
 //swagger3
 @EnableOpenApi
 @MapperScan({"com.qingfeng.*.dao","com.qingfeng.*.*.dao","com.baomidou.mybatisplus.samples.quickstart.mapper"})
+@ComponentScan(nameGenerator = UniqueNameGenerator.class)
 public class Application extends SpringBootServletInitializer {
 
 

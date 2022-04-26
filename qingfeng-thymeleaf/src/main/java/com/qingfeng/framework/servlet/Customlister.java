@@ -10,10 +10,8 @@ import javax.servlet.ServletRequestListener;
 public class Customlister implements ServletRequestListener {
     @Override
     public void requestDestroyed(ServletRequestEvent sre) {
-        System.out.println("1");
     }
     @Override
     public void requestInitialized(ServletRequestEvent sre) {
-        System.out.println("2");
     }
 }

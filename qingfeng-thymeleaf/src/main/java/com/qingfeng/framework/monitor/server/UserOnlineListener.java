@@ -28,7 +28,6 @@ public class UserOnlineListener implements HttpSessionBindingListener {
         }
         //将当前用户添加至用户列表
         userOnlineObj.putAll(this.userMap);
-        System.out.println("session属性绑定=======>"+this.userMap);
     }
 
     @Override
@@ -39,8 +38,6 @@ public class UserOnlineListener implements HttpSessionBindingListener {
         PageData userOnlineObj= (PageData) application.getAttribute("userOnlineObj");
         //将该用户从列表中移除
         String key = this.userMap.getKeys(this.userMap)[0];
-        System.out.println("key:"+key);
         userOnlineObj.remove(key);
-        System.out.println("session属性解除绑定=======>"+this.userMap);
     }
 }

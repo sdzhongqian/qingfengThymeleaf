@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qingfeng.common.dao.AuthCertDao">
+
+	<!--查询分页列表-->
+	<select id="findListPage" parameterType="com.qingfeng.util.Page" resultType="com.qingfeng.util.PageData">
+		select
+			a.id as "id",
+			a.type as "type",
+		    a.title as "title",
+			a.ip_address as "ip_address",
+			a.start_time as "start_time",
+			a.end_time as "end_time",
+			a.mac_address as "mac_address",
+			a.limit_num as "limit_num",
+		    a.other_limit as "other_limit",
+		    a.version_num as "version_num",
+			a.order_by as "order_by",
+		    a.status as "status",
+			a.remark as "remark",
+			a.create_time as "create_time",
+			a.create_user as "create_user",
+			a.create_organize as "create_organize",
+			a.update_user as "update_user",
+			a.update_time as "update_time"
+			from common_authcert a
+			where 1=1
+			<if test="pd.type != null and pd.type != ''">
+				and a.type = #{pd.type}
+			</if>
+			<if test="pd.item_id != null and pd.item_id != ''">
+				and a.item_id = #{pd.item_id}
+			</if>
+			<if test="pd.title != null and pd.title != ''">
+				and a.title like concat('%',concat(#{pd.title},'%'))
+			</if>
+			<if test="pd.start_time != null and pd.start_time != ''">
+				and left(a.create_time,10) >= #{pd.start_time}
+			</if>
+			<if test="pd.end_time != null and pd.end_time != ''">
+				and left(a.create_time,10) <![CDATA[ <= ]]> #{pd.end_time}
+			</if>
+			order by a.order_by+0 asc, a.create_time desc
+	</select>
+
+    <!--查询分页数量-->
+    <select id="findListSize" parameterType="com.qingfeng.util.Page" resultType="Integer">
+        select
+        count(*)
+		from common_authcert a
+		where 1=1
+		<if test="pd.type != null and pd.type != ''">
+			and a.type = #{pd.type}
+		</if>
+		<if test="pd.item_id != null and pd.item_id != ''">
+			and a.item_id = #{pd.item_id}
+		</if>
+		<if test="pd.title != null and pd.title != ''">
+			and a.title like concat('%',concat(#{pd.title},'%'))
+		</if>
+		<if test="pd.start_time != null and pd.start_time != ''">
+			and left(a.create_time,10) >= #{pd.start_time}
+		</if>
+		<if test="pd.end_time != null and pd.end_time != ''">
+			and left(a.create_time,10) <![CDATA[ <= ]]> #{pd.end_time}
+		</if>
+		order by a.order_by+0 asc, a.create_time desc
+    </select>
+
+    <!--查询列表-->
+    <select id="findList" parameterType="com.qingfeng.util.PageData" resultType="com.qingfeng.util.PageData">
+		select
+			a.id as "id",
+			a.type as "type",
+			a.title as "title",
+			a.ip_address as "ip_address",
+			a.start_time as "start_time",
+			a.end_time as "end_time",
+			a.mac_address as "mac_address",
+			a.limit_num as "limit_num",
+			a.other_limit as "other_limit",
+			a.version_num as "version_num",
+			a.order_by as "order_by",
+			a.status as "status",
+			a.remark as "remark",
+			a.create_time as "create_time",
+			a.create_user as "create_user",
+			a.create_organize as "create_organize",
+			a.update_user as "update_user",
+			a.update_time as "update_time"
+			from common_authcert a
+			where 1=1
+			<if test="type != null and type != ''">
+				and a.type = #{type}
+			</if>
+			<if test="item_id != null and item_id != ''">
+				and a.item_id = #{item_id}
+			</if>
+			<if test="title != null and title != ''">
+				and a.title like concat('%',concat(#{title},'%'))
+			</if>
+			<if test="start_time != null and start_time != ''">
+				and left(a.create_time,10) >= #{start_time}
+			</if>
+			<if test="end_time != null and end_time != ''">
+				and left(a.create_time,10) <![CDATA[ <= ]]> #{end_time}
+			</if>
+			order by a.order_by+0 asc, a.create_time desc
+    </select>
+	
+	<!--查询详情-->
+	<select id="findInfo" parameterType="com.qingfeng.util.PageData" resultType="com.qingfeng.util.PageData">
+		select
+			a.id as "id",
+			a.type as "type",
+			a.title as "title",
+			a.ip_address as "ip_address",
+			a.start_time as "start_time",
+			a.end_time as "end_time",
+			a.mac_address as "mac_address",
+			a.limit_num as "limit_num",
+			a.other_limit as "other_limit",
+			a.version_num as "version_num",
+			a.order_by as "order_by",
+			a.status as "status",
+			a.remark as "remark",
+			a.create_time as "create_time",
+			a.create_user as "create_user",
+			a.create_organize as "create_organize",
+			a.update_user as "update_user",
+			a.update_time as "update_time"
+			from common_authcert a
+			where a.id=#{id}
+	</select>
+	
+	<!--保存-->
+	<insert id="save" parameterType="com.qingfeng.util.PageData">
+		insert into common_authcert (
+			id,
+			type,
+			title,
+			ip_address,
+			start_time,
+			end_time,
+			mac_address,
+			limit_num,
+			other_limit,
+			version_num,
+			order_by,
+			status,
+			remark,
+			create_time,
+			create_user,
+			create_organize,
+			update_user,
+			update_time
+		) values (
+			#{id,jdbcType=VARCHAR},
+			#{type,jdbcType=VARCHAR},
+			#{title,jdbcType=VARCHAR},
+			#{ip_address,jdbcType=VARCHAR},
+			#{start_time,jdbcType=VARCHAR},
+			#{end_time,jdbcType=VARCHAR},
+			#{mac_address,jdbcType=VARCHAR},
+			#{limit_num,jdbcType=VARCHAR},
+			#{other_limit,jdbcType=VARCHAR},
+			#{version_num,jdbcType=VARCHAR},
+			#{order_by,jdbcType=VARCHAR},
+			#{status,jdbcType=VARCHAR},
+			#{remark,jdbcType=VARCHAR},
+			#{create_time,jdbcType=VARCHAR},
+			#{create_user,jdbcType=VARCHAR},
+			#{create_organize,jdbcType=VARCHAR},
+			#{update_user,jdbcType=VARCHAR},
+			#{update_time,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<!--更新-->
+	<update id="update" parameterType="com.qingfeng.util.PageData">
+		update common_authcert set
+			<if test="title != null">title=#{title},</if>
+			<if test="ip_address != null">ip_address=#{ip_address},</if>
+			<if test="start_time != null">start_time=#{start_time},</if>
+			<if test="end_time != null">end_time=#{end_time},</if>
+			<if test="mac_address != null">mac_address=#{mac_address},</if>
+			<if test="limit_num != null">limit_num=#{limit_num},</if>
+			<if test="other_limit != null">other_limit=#{other_limit},</if>
+			<if test="version_num != null">version_num=#{version_num},</if>
+			<if test="remark != null">remark=#{remark},</if>
+			<if test="order_by != null">order_by=#{order_by},</if>
+			<if test="status != null">status=#{status},</if>
+			<if test="update_user != null">update_user=#{update_user},</if>
+			update_time=#{update_time}
+			where id=#{id}
+	</update>
+	
+    <!--删除-->
+    <delete id="del" parameterType="String">
+        delete from common_authcert where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+			#{id}
+        </foreach>
+    </delete>
+
+	<!--更新状态-->
+	<update id="updateStatus" parameterType="com.qingfeng.util.PageData">
+		update common_authcert set
+			<if test="status != null">status=#{status},</if>
+			<if test="update_user != null">update_user=#{update_user},</if>
+			update_time=#{update_time}
+			where id=#{id}
+	</update>
+
+</mapper>

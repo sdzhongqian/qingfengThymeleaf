@@ -98,14 +98,11 @@ public class KickoutSessionFilter  extends AccessControlFilter{
 
         //如果队列里没有此sessionId，且用户没有被踢出；放入队列
         if(!deque.contains(sessionId) && session.getAttribute("kickout") == null) {
-            System.out.println(deque.toString());
-            System.out.println(sessionId);
             deque.push(sessionId);
             cache.put(userId, deque);
         }
 
         //如果队列里的sessionId数超出最大会话数，开始踢人
-        System.out.println("开始踢人了。。。。。。。。："+deque.size());
         while(deque.size() > maxSession) {
             Serializable kickoutSessionId = null;
             if(kickoutAfter) { //如果踢出后者
@@ -128,10 +125,8 @@ public class KickoutSessionFilter  extends AccessControlFilter{
             //会话被踢出了
             try {
                 subject.logout();
-                System.out.println("33333333333333");
                 return isAjaxResponse(request, response);
             } catch (Exception e) {
-                System.out.println("444444444444444");
                 return isAjaxResponse(request, response);
             }
         }

@@ -234,7 +234,7 @@
 <script th:src="@{/static/plugins/xadmin/js/html2canvas.min.js}"></script>
 <script>
     var save_out_url = ctx+"system/theme/saveTheme";
-    var theme_url = ctx+"system/theme/index?menuAuthId=bba6e6292dc14d59a598ab1912b23e02";
+    var theme_url = ctx+"system/theme/index";
 </script>
 <form class="layui-form" action="/index/theme/add.html" method="post">
     <div id="tool" class="layui-fluid" style="display: none;">
@@ -526,12 +526,7 @@ function findMenu(id,child_num,url,name){
                             if(n.child_num==0){
                                 var n_url = n.url;
                                 if(n_url.indexOf("http")==-1){
-//                                        n_url = ctx+n.url;
-                                    if(n_url.indexOf("?")!=-1){
-                                        n_url = n_url+'&menuAuthId='+ n.id;
-                                    }else{
-                                        n_url = n_url+'?menuAuthId='+ n.id;
-                                    }
+//                                  n_url = ctx+n.url;
                                 }
                                 tt += '<li>';
                                 tt += '<a onclick="xadmin.add_tab(\''+ n.name+'\',\''+ n_url+'\')">';
@@ -548,12 +543,7 @@ function findMenu(id,child_num,url,name){
                                         if(m.child_num==0){
                                             var m_url = m.url;
                                             if(m_url.indexOf("http")==-1){
-//                                                    m_url = ctx+m.url;
-                                                if(m_url.indexOf("?")!=-1){
-                                                    m_url = m_url+'&menuAuthId='+ m.id;
-                                                }else{
-                                                    m_url = m_url+'?menuAuthId='+ m.id;
-                                                }
+//                                              m_url = ctx+m.url;
                                             }
                                             tt += '<li>';
                                             tt += '<a onclick="xadmin.add_tab(\''+ m.name+'\',\''+ m_url+'\')">';
@@ -570,12 +560,7 @@ function findMenu(id,child_num,url,name){
                                                 if(v.level_num=='4' && v.parent_id== m.id){
                                                     var v_url = v.url;
                                                     if(v_url.indexOf("http")==-1){
-//                                                            v_url = ctx+v.url;
-                                                        if(v_url.indexOf("?")!=-1){
-                                                            v_url = v_url+'&menuAuthId='+ v.id;
-                                                        }else{
-                                                            v_url = v_url+'?menuAuthId='+ v.id;
-                                                        }
+//                                                      v_url = ctx+v.url;
                                                     }
                                                     tt += '<li>';
                                                     tt += '<a onclick="xadmin.add_tab(\''+ v.name+'\',\''+ v_url+'\')">';

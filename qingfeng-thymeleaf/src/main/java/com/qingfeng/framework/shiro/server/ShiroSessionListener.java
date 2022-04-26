@@ -43,7 +43,6 @@ public class ShiroSessionListener  implements SessionListener{
     public void onExpiration(Session session) {
         if(Verify.verifyIsNotNull(session.getAttribute("loginUser"))){
             PageData uPd = (PageData) session.getAttribute("loginUser");
-            System.out.println(prefix+uPd.get("id"));
             redisTemplate.delete(prefix+uPd.get("id"));//清除在线用户
         }
         sessionDao.delete(session);

@@ -75,7 +75,6 @@ public class ShiroService extends CrudService<AreaDao,PageData> {
             if (!StringUtils.isEmpty(mPd.get("url")) && !StringUtils.isEmpty(mPd.get("code"))) {
                 String permission = "perms[" + mPd.get("code")+"List" + "]";
                 filterChainDefinitionMap.put(mPd.get("url").toString(), permission);
-                System.out.println("#####################:"+mPd.get("url").toString()+"##"+permission);
             }
         }
         // 本例子中并不存在什么特别关键的操作，所以直接使用user认证。

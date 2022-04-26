@@ -106,8 +106,8 @@ public class SystemHardwareServer  implements Serializable {
      */
     private void setSysInfo() {
         Properties props = System.getProperties();
-        sys.setComputerName(IpUtils.getHostName());
-        sys.setComputerIp(IpUtils.getHostIp());
+        sys.setComputerName(IpUtils.getMacAddress());
+        sys.setComputerIp(IpUtils.getIpAddress());
         sys.setOsName(props.getProperty("os.name"));
         sys.setOsArch(props.getProperty("os.arch"));
         sys.setUserDir(props.getProperty("user.dir"));

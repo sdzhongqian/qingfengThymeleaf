@@ -25,11 +25,6 @@ public class AddressUtils
     public static String getRealAddressByIP(String ip)
     {
         String address = UNKNOWN;
-        // 内网不查询
-        if (IpUtils.internalIp(ip))
-        {
-            return "内网IP";
-        }
         try
         {
             String rspStr = HttpUtils.sendGet(IP_URL, "ip=" + ip + "&json=true", "GBK");

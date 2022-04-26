@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="/web/system/admin/include :: top"></th:block>
+</head>
+<body class="gray-bg">
+<div class="x-nav">
+    <span class="layui-breadcrumb">
+        <a><cite>公共模块</cite></a>
+        <a><cite>授权证书</cite></a>
+    </span>
+    <a class="layui-btn layui-btn-sm" style="line-height:1.6em;margin-top:3px;float:right" th:onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+    </a>
+</div>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space1">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <blockquote id="search" class="layui-elem-quote" style="position: relative;">
+                    <div class="layui-card-body ">
+                        <form class="layui-form layui-col-space5">
+                            <div class="layui-inline">
+                                <label class="layui-form-lab" style="width: auto">项目名称</label>
+                                <input type="text" name="product_name" id="product_name" style="width: 180px;height: 32px;display: inline" placeholder="请输入项目名称" class="layui-input">
+                            </div>
+                            <div class="layui-inline">
+                                <div class="layui-inline">
+                                    <label class="layui-form-lab" style="width: auto">创建时间</label>
+                                    <input type="text" name="start_time" id="start_time" style="width: 180px;height: 32px;display: inline" placeholder="请输入开始日期" class="layui-input">
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-lab" style="width: auto">~</label>
+                                    <input type="text" name="end_time" id="end_time" style="width: 180px;height: 32px;display: inline" placeholder="请输入结束日期" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <button type="button" class="layui-btn layui-btn-sm"  lay-submit="" onclick="reloadData()"><i class="layui-icon">&#xe615;</i></button>
+                            </div>
+                        </form>
+                    </div>
+                </blockquote>
+                <div class="layui-card-body ">
+                    <table class="layui-hide" id="common_authCert" lay-filter="common_authCert"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <shiro:hasPermission name="authCert:add">
+            <button type="button" class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon"></i>新增</button>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="authCert:edit">
+            <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit"><i class="layui-icon"></i>编辑</button>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="authCert:del">
+            <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del"><i class="layui-icon"></i>删除</button>
+        </shiro:hasPermission>
+    </div>
+</script>
+<script type="text/html" id="barDemo">
+    <shiro:hasPermission name="authCert:info">
+        <a class="layui-btn layui-btn-xs" lay-event="info">详情</a>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="authCert:edit">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编辑</a>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="authCert:del">
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="authCert:exportCert">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="exportCert">下载证书</a>
+    </shiro:hasPermission>
+</script>
+<script>
+    var table,form;
+    layui.use(['table','form'], function(){
+        table = layui.table;
+        form = layui.form;
+
+        table.render({
+            elem: '#common_authCert'
+            ,url:ctx+'common/authCert/findListPage'
+            ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            ,defaultToolbar: ['filter', 'exports', 'print']
+            ,title: '授权证书'
+            ,cols: [
+                [
+                {type: 'checkbox', fixed: 'left', width:40}
+                ,{field:'', fixed: 'left',title:'项目名称',templet: function(res){
+                    return filterXSS(res.title);
+                }}
+                ,{field:'', title:'服务时间',templet: function(res){
+                    return filterXSS(res.start_time)+"至"+filterXSS(res.end_time);
+                }}
+                ,{field:'', title:'IP地址',templet: function(res){
+                    return filterXSS(res.ip_address);
+                }}
+                ,{field:'', title:'Mac地址',templet: function(res){
+                    return filterXSS(res.mac_address);
+                }}
+                ,{field:'', title:'其他限制',templet: function(res){
+                    return filterXSS(res.other_limit);
+                }}
+                ,{field:'', title:'版本号',templet: function(res){
+                    return filterXSS(res.version_num);
+                }}
+                ,{field:'create_time', title:'创建时间'}
+                ,{fixed: 'right', align:'center',title:'操作', width:220, toolbar: '#barDemo'}
+            ]
+            ]
+            ,id:'common_authCert'
+            ,page: true
+            ,done: function (res, curr, count) {
+            }
+        });
+
+        //头工具栏事件
+        table.on('toolbar(common_authCert)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            var data = checkStatus.data;
+            switch(obj.event){
+                case 'add': //增加
+                    add();
+                    break;
+                case 'edit': //编辑
+                    if(data.length!=1){
+                        layer.msg('请选择一条数据进行操作。');
+                    }else{
+                        if($("#edit_"+data[0].id).text()==undefined||$("#edit_"+data[0].id).text()==''||$("#edit_"+data[0].id).text()==null){
+                            layer.msg("没有编辑权限,请选择其他数据进行编辑。", {time: 2000});
+                            return;
+                        }
+                        edit(data[0].id)
+                    }
+                    break;
+                case 'del': //删除
+                    if(data.length>0){
+                        layer.confirm('真的要删除数据么?', function(index){
+                            var ids = [];
+                            var names = [];
+                            for ( var i = 0; i <data.length; i++){
+                                ids.push(data[i].id);
+                                names.push(data[i].name);
+                            }
+                            $.get(ctx+"common/authCert/del?ids="+ids+"&names="+names,null,function(res){
+                                if (res.success) {
+                                    layer.msg("数据删除成功。", {time: 2000});
+                                    reloadData();
+                                }else{
+                                    if(res.loseSession=='loseSession'){
+                                        loseSession(res.msg,res.url)
+                                    }else{
+                                        layer.msg(res.msg, {time: 2000});
+                                    }
+                                }
+                            },'json');
+                        });
+                    }else{
+                        layer.msg('请选择要删除的数据。');
+                    }
+                    break;
+            };
+        });
+
+        //监听行工具事件
+        table.on('tool(common_authCert)', function(obj){
+            var data = obj.data;
+            //console.log(obj)
+            if(obj.event === 'info'){
+                info(data.id);
+            }else if(obj.event === 'del'){
+                layer.confirm('真的要删除数据么?', function(index){
+                    $.get(ctx+"common/authCert/del?ids="+data.id,null,function(res){
+                        if (res.success) {
+                            layer.msg("数据删除成功。", {time: 2000});
+                            reloadData();
+                        }else{
+                            if(res.loseSession=='loseSession'){
+                                loseSession(res.msg,res.url)
+                            }else{
+                                layer.msg(res.msg, {time: 2000});
+                            }
+                        }
+                    },'json');
+                });
+            } else if(obj.event === 'edit'){
+                edit(data.id)
+            } else if(obj.event === 'setStatus1'){
+                updateStatus(data.id,'1');
+            } else if(obj.event === 'setStatus0'){
+                updateStatus(data.id,'0');
+            } else if(obj.event === 'exportCert'){
+                exportCert(data.id);
+            }
+        });
+
+        //监听单元格编辑
+        table.on('edit(common_authCert)', function(obj){
+            var value = obj.value //得到修改后的值
+                    ,data = obj.data //得到所在行所有键值
+                    ,field = obj.field; //得到字段
+//            layer.msg('[ID: '+ data.id +'] ' + field + ' 字段更改为：'+ value);
+            $.ajax({
+                type: "POST",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: ctx+"common/authCert/update?"+field+"="+value ,//url
+                data: {
+                    id:data.id
+                },
+                success: function (res) {
+                    if (res.success) {
+                        location.reload();
+                    }else{
+                        if(res.loseSession=='loseSession'){
+                            loseSession(res.msg,res.url)
+                        }else{
+                            layer.msg(res.msg, {time: 2000});
+                        }
+                    }
+                }
+            });
+        });
+
+    });
+
+    function reloadData(){
+        var product_name = $('#product_name').val();
+        var start_time = $('#start_time').val();
+        var end_time = $('#end_time').val();
+        //执行重载
+        table.reload('common_authCert', {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+            ,where: {
+                product_name: product_name,
+                start_time: start_time,
+                end_time:end_time
+            }
+        });
+    }
+
+    //新增
+    function add(){
+        parent.layer.open({
+            id:'authCert_add',
+            //skin: 'layui-layer-molv',
+            title: '添加',
+            maxmin: true,
+            type: 2,
+            content: ctx+'common/authCert/toAdd',
+            area: ['800px', '500px'],
+            end: function () {
+                var val = getOpenCloseParam();
+                if(val=="reload"){
+                    reloadData();
+                }
+            }
+        });
+    }
+
+    //编辑
+    function edit(id){
+        parent.layer.open({
+            id:'authCert_edit',
+            //skin: 'layui-layer-molv',
+            title: '编辑',
+            maxmin: true,
+            type: 2,
+            content: ctx+'common/authCert/toUpdate?id='+id,
+            area: ['800px', '500px'],
+            end: function () {
+                var val = getOpenCloseParam();
+                if(val=="reload"){
+                    reloadData();
+                }
+            }
+        });
+    }
+
+    //详情
+    function info(id){
+        parent.layer.open({
+            //skin: 'layui-layer-molv',
+            title: '详情',
+            maxmin: true,
+            type: 2,
+            content: ctx+'common/authCert/findInfo?id='+id,
+            area: ['800px', '500px']
+        });
+    }
+
+
+    function updateStatus(id,status){
+        $.get(ctx+"common/authCert/updateStatus?id="+id+"&status="+status,null,function(res){
+            if (res.success) {
+                layer.tips("状态修改成功。");
+                reloadData();
+            }else{
+                if(res.loseSession=='loseSession'){
+                    loseSession(res.msg,res.url)
+                }else{
+                    layer.msg(res.msg, {time: 2000});
+                }
+            }
+        },'json');
+    }
+
+    //导出Excel
+    function exportCert(id){
+        console.log(id)
+        window.location.href=ctx+"common/authCert/exportCert?id="+id;
+    }
+
+</script>
+
+<th:block th:include="/web/system/admin/include :: bottom" />
+</body>
+</html>

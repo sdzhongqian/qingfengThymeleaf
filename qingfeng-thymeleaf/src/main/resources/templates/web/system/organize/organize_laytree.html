@@ -54,7 +54,7 @@
                             // layer.msg(JSON.stringify(obj.data));
                             $("#tree_id").val(obj.data.id);
                             $("#tree_name").val(obj.data.title);
-                            $("#dic_cascade").val(obj.data.data.dic_cascade);
+                            $("#org_cascade").val(obj.data.data.org_cascade);
                             $("#level_num").val(obj.data.data.level_num);
                             $("#current_dic").html("当前节点："+obj.data.title);
                             reloadData(obj.data.id);

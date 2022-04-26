@@ -142,7 +142,7 @@
         <logger name="com.opensymphony.xwork2" level="ERROR" />
         <logger name="org.jboss" level="ERROR" />
         <!-- 配置日志的根节点 -->
-        <root level="all">
+        <root level="INFO">
             <appender-ref ref="Console" />
             <appender-ref ref="Filelog"/>
             <appender-ref ref="RollingFileInfo" />

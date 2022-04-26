@@ -22,4 +22,10 @@ public class CommonConfig {
     //代码生成屏蔽字段
     private String gencodeField;
 
+    //公钥
+    private String publicKey;
+
+    //私钥
+    private String privateKey;
+
 }
